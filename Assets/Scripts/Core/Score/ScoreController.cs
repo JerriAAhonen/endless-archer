@@ -6,6 +6,7 @@ public class ScoreController
 
 	public Observer<int> Score { get; private set; }
 	public Observer<int> Combo { get; private set; }
+	public Observer<float> TimeElapsed { get; private set; }
 
 	public ScoreController(float comboDecayDuration)
 	{
@@ -13,10 +14,13 @@ public class ScoreController
 
 		Score = new Observer<int>(0);
 		Combo = new Observer<int>(0);
+		TimeElapsed = new Observer<float>(0f);
 	}
 
 	public void Update(float deltaTime)
 	{
+		TimeElapsed.Value += deltaTime;
+
 		if (Combo <= 0f)
 			return;
 

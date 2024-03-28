@@ -49,6 +49,9 @@ public class AudioManager : PersistentSingleton<AudioManager>
 		SetSFXVolume(PlayerPrefsUtil.SFXVolume);
 		SetMusicVolume(PlayerPrefsUtil.MusicVolume);
 
+		if (music == null)
+			return;
+
 		musicSource = CreateAudioSource();
 		musicSource.clip = music;
 		musicSource.volume = musicVolume;

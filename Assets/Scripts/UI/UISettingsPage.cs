@@ -19,12 +19,20 @@ public class UISettingsPage : UIMenuPageBase
 
 	public override void Enter()
 	{
+		sfxVolumeSlider.value = PlayerPrefsUtil.SFXVolume;
+		musicVolumeSlider.value = PlayerPrefsUtil.MusicVolume;
+		aimSensitivitySlider.value = PlayerPrefsUtil.AimSensitivity;
+
 		gameObject.SetActive(true);
 	}
 
 	public override void Exit()
 	{
 		gameObject.SetActive(false);
+
+		PlayerPrefsUtil.SFXVolume = sfxVolumeSlider.value;
+		PlayerPrefsUtil.MusicVolume = musicVolumeSlider.value;
+		PlayerPrefsUtil.AimSensitivity = aimSensitivitySlider.value;
 	}
 
 	#endregion
@@ -56,21 +64,4 @@ public class UISettingsPage : UIMenuPageBase
 	}
 
 	#endregion
-
-	private void SetSFXVolume()
-	{
-
-	}
-
-	private void SetMusicVolume()
-	{
-
-	}
-
-	private void SetAimSensitivity()
-	{
-
-	}
-
-	private float ConvertToLog(float sliderValue) => Mathf.Log10(sliderValue) * 20f;
 }

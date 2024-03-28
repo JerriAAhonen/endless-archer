@@ -14,6 +14,7 @@ public class GameManager : PersistentSingleton<GameManager>
 	public void StartLevel()
 	{
 		mainMenuController.SetVisible(false);
+		levelController.StartLevel();
 	}
 
 	public void QuitGame()

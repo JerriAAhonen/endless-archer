@@ -18,18 +18,18 @@ public class LevelSegmentDatabase : ScriptableObject
 	public class LevelSegmentMap
 	{
 		public LevelSegmentType type;
-		public GameObject prefab;
+		public LevelSegment prefab;
 	}
 
 	[SerializeField] private List<LevelSegmentMap> levelSegments;
 
-	public GameObject GetRandom()
+	public LevelSegment GetRandom()
 	{
 		var randIndex = UnityEngine.Random.Range(0, levelSegments.Count);
 		return levelSegments[randIndex].prefab;
 	}
 
-	public GameObject Get(LevelSegmentType type)
+	public LevelSegment Get(LevelSegmentType type)
 	{
 		return levelSegments.Find(x => x.type == type).prefab;
 	}

@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45a35cca8ded94f95a7b0cd2d91361b0, type: 3}
   m_Name: LevelSegmentDatabase
   m_EditorClassIdentifier: 
-  levelSegments: []
+  levelSegments:
+  - type: 1
+    prefab: {fileID: 8186710737318308226, guid: 4ba8164ae29b8a746b84931458888c82,
+      type: 3}
