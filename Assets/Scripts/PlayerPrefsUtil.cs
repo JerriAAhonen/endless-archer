@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public static class PlayerPrefsUtil
 {
+	public static event Action PlayerPrefsUpdated;
+
 	// Settings
 	private const string SFXVolumeKey = "Settings_SFXVolume";
 	private const string MusicVolumeKey = "Settings_MusicVolume";
@@ -15,20 +18,20 @@ public static class PlayerPrefsUtil
 
 	public static float SFXVolume
 	{
-		get => PlayerPrefs.GetFloat(SFXVolumeKey, 0.75f);
-		set => PlayerPrefs.SetFloat(SFXVolumeKey, value);
+		get => Get(SFXVolumeKey, 0.75f);
+		set => Set(SFXVolumeKey, value);
 	}
 
 	public static float MusicVolume
 	{
-		get => PlayerPrefs.GetFloat(MusicVolumeKey, 0.75f);
-		set => PlayerPrefs.SetFloat(MusicVolumeKey, value);
+		get => Get(MusicVolumeKey, 0.75f);
+		set => Set(MusicVolumeKey, value);
 	}
 
 	public static float AimSensitivity
 	{
-		get => PlayerPrefs.GetFloat(AimSensitivityKey, 0.5f);
-		set => PlayerPrefs.SetFloat(AimSensitivityKey, value);
+		get => Get(AimSensitivityKey, 0.5f);
+		set => Set(AimSensitivityKey, value);
 	}
 
 	#endregion
@@ -37,15 +40,37 @@ public static class PlayerPrefsUtil
 
 	public static int Highscore
 	{
-		get => PlayerPrefs.GetInt(HighscoreScoreKey, 0);
-		set => PlayerPrefs.SetInt(HighscoreScoreKey, value);
+		get => Get(HighscoreScoreKey, 0);
+		set => Set(HighscoreScoreKey, value);
 	}
 
 	public static float HighscoreTime
 	{
-		get => PlayerPrefs.GetFloat(HighscoreTimeKey, 0f);
-		set => PlayerPrefs.SetFloat(HighscoreTimeKey, value);
+		get => Get(HighscoreTimeKey, 0f);
+		set => Set(HighscoreTimeKey, value);
 	}
 
 	#endregion
+
+	private static string Get(string key, string defaultValue) => PlayerPrefs.GetString(key, defaultValue);
+	private static int Get(string key, int defaultValue) => PlayerPrefs.GetInt(key, defaultValue);
+	private static float Get(string key, float defaultValue) => PlayerPrefs.GetFloat(key, defaultValue);
+
+	private static void Set(string key, string value)
+	{
+		PlayerPrefs.SetString(key, value);
+		PlayerPrefsUpdated?.Invoke();
+	}
+
+	private static void Set(string key, int value)
+	{
+		PlayerPrefs.SetInt(key, value);
+		PlayerPrefsUpdated?.Invoke();
+	}
+
+	private static void Set(string key, float value) 
+	{
+		PlayerPrefs.SetFloat(key, value);
+		PlayerPrefsUpdated?.Invoke();
+	}
 }

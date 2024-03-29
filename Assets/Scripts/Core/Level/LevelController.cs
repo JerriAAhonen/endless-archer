@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelController : MonoBehaviour
 {
 	[SerializeField] private LevelSegmentController segmentController;
+	[SerializeField] private PlayerController playerController;
 
 	private readonly float defaultComboDecayDuration = 2f;
 
@@ -12,15 +13,27 @@ public class LevelController : MonoBehaviour
 
 	public ScoreController Score => scoreController;
 
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.F))
+		{
+			GameOver();
+		}
+	}
+
 	public void StartLevel()
 	{
 		scoreController = new ScoreController(defaultComboDecayDuration);
 		segmentController.StartLevel();
+
+		playerController.OnStartLevel();
 	}
 
 	public void GameOver()
 	{
+		playerController.OnLevelEnded();
 		CheckHighscore();
+		GameManager.Instance.OnLevelEnded();
 		
 		void CheckHighscore()
 		{
