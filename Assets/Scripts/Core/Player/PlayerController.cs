@@ -61,11 +61,13 @@ public class PlayerController : MonoBehaviour
 	public void OnStartLevel()
 	{
 		ControlsEnabled = true;
+		bow.OnStartLevel();
 	}
 
 	public void OnLevelEnded()
 	{
 		ControlsEnabled = false;
+		bow.OnLevelEnded();
 	}
 
 	private void OnAimSensitivityUpdated()

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Bow : MonoBehaviour
 {
-	[SerializeField] private float drawSpeed;
-	[SerializeField] private float maxDraw = 1f;
+	[SerializeField] private float maxDrawDur;
+	[SerializeField] private AnimationCurve drawSpeedCurve;
 	[SerializeField] private float drawVisualMultiplier = 1f;
 
 	[SerializeField] private Transform arrowContainer;
@@ -13,13 +13,14 @@ public class Bow : MonoBehaviour
 
 	private PlayerController controller;
 	private Arrow arrow;
-	private float draw;
 
 	public void Init(PlayerController controller)
 	{
 		this.controller = controller;
-		SpawnArrow();
 	}
+
+	private float elapsedDraw;
+	private float drawAmount;
 
 	private void Update()
 	{
@@ -28,24 +29,46 @@ public class Bow : MonoBehaviour
 
 		if (Input.GetMouseButton(0))
 		{
-			draw += Time.deltaTime * drawSpeed;
-			draw = Mathf.Min(draw, maxDraw);
-			MoveArrowWithDraw();
+			elapsedDraw += Time.deltaTime;
+			var drawDurPercentage = elapsedDraw / maxDrawDur;
+			drawAmount = drawSpeedCurve.Evaluate(drawDurPercentage);
+			MoveArrowWithDraw(drawAmount);
 		}
 		if (Input.GetMouseButtonUp(0))
 		{
-			Shoot();
-			draw = 0f;
+			Shoot(drawAmount);
+			elapsedDraw = 0f;
+			drawAmount = 0f;
 		}
 	}
 
-	private void Shoot()
+	public void OnStartLevel()
 	{
+		StartCoroutine(Routine());
+		IEnumerator Routine()
+		{
+			yield return null;
+
+			SpawnArrow();
+		}
+	}
+
+	public void OnLevelEnded()
+	{
+		Destroy(arrow.gameObject);
+		arrow = null;
+	}
+
+	private void Shoot(float percentage)
+	{
+		if (!arrow) return;
+
 		StartCoroutine(ShootRoutine());
 
 		IEnumerator ShootRoutine()
 		{
-			arrow.Shoot(draw);
+			arrow.Shoot(percentage);
+			arrow = null;
 
 			yield return CachedWait.ForSeconds(0.5f);
 
@@ -60,10 +83,10 @@ public class Bow : MonoBehaviour
 		arrow.transform.localRotation = Quaternion.identity;
 	}
 
-	private void MoveArrowWithDraw()
+	private void MoveArrowWithDraw(float percentage)
 	{
 		if (!arrow) return;
 
-		arrow.transform.localPosition = Vector3.back * draw * drawVisualMultiplier;
+		arrow.transform.localPosition = Vector3.back * percentage * drawVisualMultiplier;
 	}
 }
