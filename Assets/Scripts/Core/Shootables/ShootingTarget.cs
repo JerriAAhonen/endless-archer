@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class ShootingTarget : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[SerializeField] private LayerMask arrowMask;
+	[SerializeField] private float labelOffset;
+	[Header("Points")]
+	[SerializeField] private int pointValue;
+	[SerializeField] private string text;
+	[SerializeField] private Color color;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (BitMaskUtil.MaskContainsLayer(arrowMask, collision.gameObject.layer))
+		{
+			GameManager.Instance.LevelController.FloatingText.ShowText(transform.position + Vector3.up * labelOffset, text, color);
+			GameManager.Instance.LevelController.Score.Add(pointValue);
+			Destroy(gameObject);
+		}
+	}
 }

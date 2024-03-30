@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
 	[SerializeField] private Bow bow;
 	[SerializeField] private Transform rotationContainer;
+	[SerializeField] private Transform camTm;
 
 	private float aimSensitivity;
 
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
 	private float yRotation;
 
 	public bool ControlsEnabled { get; private set; }
+	public Transform CameraTransform => camTm;
 
 	private void Start()
 	{

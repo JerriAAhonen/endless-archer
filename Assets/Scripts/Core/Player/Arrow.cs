@@ -22,6 +22,8 @@ public class Arrow : MonoBehaviour
 		if (hit) return;
 
 		var desiredRotation = Quaternion.LookRotation(rb.velocity);
+		if (desiredRotation.eulerAngles.Approximately(Vector3.zero)) return;
+
 		transform.rotation = desiredRotation;
 	}
 	

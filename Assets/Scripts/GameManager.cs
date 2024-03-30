@@ -5,6 +5,8 @@ public class GameManager : PersistentSingleton<GameManager>
 	[SerializeField] private UIMainMenuController mainMenuController;
 	[SerializeField] private LevelController levelController;
 
+	public LevelController LevelController => levelController;
+
 	public void OpenMenu()
 	{
 		mainMenuController.SetVisible(true);
