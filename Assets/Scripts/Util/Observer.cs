@@ -25,6 +25,8 @@ public class Observer<T>
 	{
 		if (onValueChanged != null)
 			ValueChanged += onValueChanged;
+
+		ValueChanged?.Invoke(value);
 	}
 
 	private void Set(T value)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -449,6 +450,20 @@ public static class Extensions
 	public static bool IsNullOrEmpty(this string self)
 	{
 		return self == null || self.Length == 0;
+	}
+
+	public static string ToCustomString(this int number,
+		int position = 3, string separator = " ")
+	{
+		var numStr = number.ToString();
+		var len = numStr.Length;
+		var result = new StringBuilder();
+		for (var i = 0; i < len; i++)
+		{
+			if (i > 0 && i % position == 0) result.Insert(0, separator);
+			result.Insert(0, numStr[len - 1 - i]);
+		}
+		return result.ToString();
 	}
 
 	#endregion
