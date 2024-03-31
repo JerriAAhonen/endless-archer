@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eedb3cbc677edab4393b263286c6aef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceMultiplier: 20
+  forceMultiplier: 40
   arrowSpinSpeed: 1000
   model: {fileID: 8360115029274305687}
 --- !u!54 &-5690209506246381990

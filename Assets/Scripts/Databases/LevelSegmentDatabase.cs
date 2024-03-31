@@ -7,7 +7,9 @@ public enum LevelSegmentType
 {
 	None,
 	Default,
-	Wall,
+	WallSingle,
+	WallDouble,
+	WallTriple,
 	Hole,
 }
 

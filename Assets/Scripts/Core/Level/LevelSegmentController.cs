@@ -55,25 +55,25 @@ public class LevelSegmentController : MonoBehaviour
 
 		for (int i = 0; i < activeSegments.Count; i++)
 		{
-			activeSegments[i].Translate(-movementSpeed); // Negate mvntSpd to make segments move backwards by default
+			activeSegments[i].Translate(-movementSpeed); // Inverse movementSpeed to make segments move backwards by default
 		}
 	}
 
 	private void OnSegmentReachedDespawnDistance(LevelSegment segment)
 	{
-		segment.transform.position = transform.position + respawnDistance * Vector3.forward;
+		segment.transform.position = segmentContainer.position + respawnDistance * Vector3.forward;
 
 	}
 
 	private void PopulateSegments()
 	{
-		despawnDistance = transform.position.z - segmentLength * 2;
+		despawnDistance = segmentContainer.position.z - segmentLength * 2;
 		respawnDistance = despawnDistance + (segmentAmount - 1) * segmentLength;
 
 		for (int i = 0; i < segmentAmount; i++)
 		{
 			var segment = Instantiate(segmentDB.Get(LevelSegmentType.Default), segmentContainer);
-			segment.transform.position = i * segmentLength * Vector3.forward;
+			segment.transform.localPosition = i * segmentLength * Vector3.forward;
 			segment.Init(despawnDistance, OnSegmentReachedDespawnDistance);
 			activeSegments.Add(segment);
 		}
