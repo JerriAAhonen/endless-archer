@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum LevelSegmentStyle
@@ -20,19 +21,18 @@ public class LevelSegmentController : MonoBehaviour
 
 	private readonly Dictionary<LevelSegmentType, List<LevelSegment>> segmentInstances = new();
 
-	private LevelSegmentStyle currentStyle;
-	private float respawnDistance;
-	private float despawnDistance;
+	//private LevelSegmentStyle currentStyle;
+	private float DespawnDistance => segmentContainer.position.z - segmentLength * 2;
 
 	public void StartLevel()
 	{
-		currentStyle = LevelSegmentStyle.Level;
+		//currentStyle = LevelSegmentStyle.Level;
 		PopulateSegments();
 	}
 
 	public void SetMenu()
 	{
-		currentStyle = LevelSegmentStyle.Menu;
+		//currentStyle = LevelSegmentStyle.Menu;
 	}
 
 	private void Update()
@@ -61,21 +61,52 @@ public class LevelSegmentController : MonoBehaviour
 
 	private void OnSegmentReachedDespawnDistance(LevelSegment segment)
 	{
-		segment.transform.position = segmentContainer.position + respawnDistance * Vector3.forward;
+		segment.Activate(false);
 
+		activeSegments.Remove(segment);
+		segmentInstances[segment.Type].Add(segment);
+
+		var newSegmentType = EnumUtils.GetRandom(new[] { LevelSegmentType.None });
+
+		if (!segmentInstances.ContainsKey(newSegmentType))
+			segmentInstances[newSegmentType] = new();
+
+		if (segmentInstances[newSegmentType].Count == 0)
+		{
+			SpawnNewSegment(newSegmentType);
+			return;
+		}
+
+		var newSegment = segmentInstances[newSegmentType][0];
+		newSegment.Activate(true);
+		newSegment.transform.localPosition = GetSpawnPos();
+		activeSegments.Add(newSegment);
 	}
 
 	private void PopulateSegments()
 	{
-		despawnDistance = segmentContainer.position.z - segmentLength * 2;
-		respawnDistance = despawnDistance + (segmentAmount - 1) * segmentLength;
-
 		for (int i = 0; i < segmentAmount; i++)
 		{
-			var segment = Instantiate(segmentDB.Get(LevelSegmentType.Default), segmentContainer);
-			segment.transform.localPosition = i * segmentLength * Vector3.forward;
-			segment.Init(despawnDistance, OnSegmentReachedDespawnDistance);
-			activeSegments.Add(segment);
+			SpawnNewSegment(LevelSegmentType.Default);
 		}
+	}
+
+	private void SpawnNewSegment(LevelSegmentType type)
+	{
+		var segment = Instantiate(segmentDB.Get(type), segmentContainer);
+		segment.Init(DespawnDistance, OnSegmentReachedDespawnDistance);
+		segment.Activate(true);
+		segment.transform.localPosition = GetSpawnPos();
+		activeSegments.Add(segment);
+
+		if (!segmentInstances.ContainsKey(type))
+			segmentInstances[type] = new();
+	}
+
+	private Vector3 GetSpawnPos()
+	{
+		if (activeSegments == null || activeSegments.Count == 0)
+			return Vector3.zero;
+		return activeSegments.Last().transform.localPosition + Vector3.forward * segmentLength;
 	}
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
 	[SerializeField] private float forceMultiplier = 5f;
-	[SerializeField] private float arrowSpinSpeed = 500f;
+	//[SerializeField] private float arrowSpinSpeed = 500f;
 	[SerializeField] private Transform model;
 
 	private Rigidbody rb;
@@ -22,13 +22,11 @@ public class Arrow : MonoBehaviour
 	{
 		if (!shot) return;
 		if (hit) return;
+		if (rb.velocity.Approximately(Vector3.zero)) return;
 
-		var desiredRotation = Quaternion.LookRotation(rb.velocity);
-		if (desiredRotation.eulerAngles.Approximately(Vector3.zero)) return;
+		transform.rotation = Quaternion.LookRotation(rb.velocity);
 
-		transform.rotation = desiredRotation;
-
-		model.Rotate(Vector3.forward, arrowSpinSpeed * Time.deltaTime, Space.Self);
+		//model.Rotate(Vector3.forward, arrowSpinSpeed * Time.deltaTime, Space.Self);
 	}
 	
 	private void OnCollisionEnter(Collision collision)

@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+	[SerializeField] private GameObject root;
+	[Space]
+	[SerializeField] private LayerMask obstacleLayer;
+	[Space]
 	[SerializeField] private Bow bow;
 	[SerializeField] private Transform rotationContainer;
 	[SerializeField] private Transform camTm;
+
+	private LevelController controller;
 
 	private float aimSensitivity;
 
@@ -16,8 +22,14 @@ public class PlayerController : MonoBehaviour
 	public bool ControlsEnabled { get; private set; }
 	public Transform CameraTransform => camTm;
 
-	private void Start()
+	private void Awake()
 	{
+		SetActive(false);
+	}
+
+	public void Init(LevelController controller)
+	{
+		this.controller = controller;
 		bow.Init(this);
 		OnAimSensitivityUpdated();
 	}
@@ -58,16 +70,32 @@ public class PlayerController : MonoBehaviour
 		transform.localRotation = Quaternion.Euler(0f, yRotation, 0f);
 	}
 
+	private void OnCollisionEnter(Collision collision)
+	{
+		Debug.Log("Player collision");
+		if (BitMaskUtil.MaskContainsLayer(obstacleLayer, collision.gameObject.layer))
+		{
+			controller.GameOver();
+		}
+	}
+
 	public void OnStartLevel()
 	{
+		SetActive(true);
 		ControlsEnabled = true;
 		bow.OnStartLevel();
 	}
 
 	public void OnLevelEnded()
 	{
+		SetActive(false);
 		ControlsEnabled = false;
 		bow.OnLevelEnded();
+	}
+
+	private void SetActive(bool active)
+	{
+		root.SetActive(active);
 	}
 
 	private void OnAimSensitivityUpdated()

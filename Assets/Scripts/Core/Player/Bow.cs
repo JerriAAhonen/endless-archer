@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Bow : MonoBehaviour
 {
+	[SerializeField] private GameObject root;
+	[Space]
 	[SerializeField] private float maxDrawDur;
 	[SerializeField] private AnimationCurve drawSpeedCurve;
 	[SerializeField] private float drawVisualMultiplier = 1f;
@@ -11,6 +13,7 @@ public class Bow : MonoBehaviour
 	[Space]
 	[SerializeField] private Transform arrowContainer;
 	[SerializeField] private Arrow arrowPrefab;
+	[SerializeField] private Vector3 arrowSpawnRotation;
 	[Space]
 	[SerializeField] private Transform positionRef;
 	[SerializeField] private float movementSpeed;
@@ -20,14 +23,18 @@ public class Bow : MonoBehaviour
 
 	private PlayerController controller;
 	private Arrow arrow;
+	private float elapsedDraw;
+	private float drawAmount;
+
+	private void Awake()
+	{
+		root.SetActive(false);
+	}
 
 	public void Init(PlayerController controller)
 	{
 		this.controller = controller;
 	}
-
-	private float elapsedDraw;
-	private float drawAmount;
 
 	private void Update()
 	{
@@ -59,6 +66,8 @@ public class Bow : MonoBehaviour
 
 	public void OnStartLevel()
 	{
+		root.SetActive(true);
+
 		StartCoroutine(Routine());
 		IEnumerator Routine()
 		{
@@ -70,8 +79,13 @@ public class Bow : MonoBehaviour
 
 	public void OnLevelEnded()
 	{
-		Destroy(arrow.gameObject);
-		arrow = null;
+		root.SetActive(false);
+
+		if (arrow)
+		{
+			Destroy(arrow.gameObject);
+			arrow = null;
+		}
 	}
 
 	private void Shoot(float percentage)
@@ -96,7 +110,7 @@ public class Bow : MonoBehaviour
 	{
 		arrow = Instantiate(arrowPrefab, arrowContainer);
 		arrow.transform.localPosition = Vector3.forward * arrowOffset;
-		arrow.transform.localRotation = Quaternion.identity;
+		arrow.transform.localRotation = Quaternion.Euler(arrowSpawnRotation);
 	}
 
 	private void MoveArrowWithDraw(float percentage)

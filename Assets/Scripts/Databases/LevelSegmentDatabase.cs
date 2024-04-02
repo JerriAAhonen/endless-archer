@@ -5,34 +5,29 @@ using UnityEngine;
 
 public enum LevelSegmentType
 {
-	None,
-	Default,
-	WallSingle,
-	WallDouble,
-	WallTriple,
-	Hole,
+	None = 0,
+	Default = 1,
+	WallSingle = 2,
+	WallDouble = 3,
+	WallTriple = 4,
+	HoleSingle = 5,
+	HoleDouble = 6,
+	HoleTriple = 7,
 }
 
 [CreateAssetMenu()]
 public class LevelSegmentDatabase : ScriptableObject
 {
-	[Serializable]
-	public class LevelSegmentMap
-	{
-		public LevelSegmentType type;
-		public LevelSegment prefab;
-	}
-
-	[SerializeField] private List<LevelSegmentMap> levelSegments;
+	[SerializeField] private List<LevelSegment> levelSegments;
 
 	public LevelSegment GetRandom()
 	{
 		var randIndex = UnityEngine.Random.Range(0, levelSegments.Count);
-		return levelSegments[randIndex].prefab;
+		return levelSegments[randIndex];
 	}
 
 	public LevelSegment Get(LevelSegmentType type)
 	{
-		return levelSegments.Find(x => x.type == type).prefab;
+		return levelSegments.Find(x => x.Type == type);
 	}
 }

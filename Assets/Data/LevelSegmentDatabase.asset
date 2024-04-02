@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: LevelSegmentDatabase
   m_EditorClassIdentifier: 
   levelSegments:
-  - type: 1
-    prefab: {fileID: 8186710737318308226, guid: 4ba8164ae29b8a746b84931458888c82,
-      type: 3}
+  - {fileID: 8186710737318308226, guid: 4ba8164ae29b8a746b84931458888c82, type: 3}
+  - {fileID: 8186710737318308226, guid: c1d657f867a6fa4438e0f3377a05068d, type: 3}
+  - {fileID: 8186710737318308226, guid: f3a86aea7f46ba948b6e5b96794c2a2d, type: 3}
+  - {fileID: 8186710737318308226, guid: 2e8cc515e8522e548a4bdf301f402b8f, type: 3}
+  - {fileID: 8186710737318308226, guid: 29e41fbbb84bfc24995e7103947ea286, type: 3}
+  - {fileID: 8186710737318308226, guid: 8cb10ace5ed847b4cbb6e29924810f3d, type: 3}
+  - {fileID: 8186710737318308226, guid: 1511626ee4f49f846ae5d312cb86169e, type: 3}
