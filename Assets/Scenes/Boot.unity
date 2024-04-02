@@ -1802,7 +1802,10 @@ MonoBehaviour:
   segmentContainer: {fileID: 299091977}
   segmentAmount: 10
   segmentLength: 20
-  movementSpeed: 1
+  baseMovementSpeed: 1
+  initialSpeedUpDur: 5
+  initialSpeedUpFinalSpeed: 5
+  movementSpeedIncrease: 0.1
 --- !u!1 &983726510
 GameObject:
   m_ObjectHideFlags: 0

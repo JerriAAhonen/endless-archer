@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
 		bow.OnStartLevel();
 	}
 
-	public void OnLevelEnded()
+	public void OnGameOver()
 	{
 		SetActive(false);
 		ControlsEnabled = false;

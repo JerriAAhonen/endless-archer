@@ -25,6 +25,7 @@ public class LevelSegment : MonoBehaviour
         
         if (activate)
         {
+            transform.localRotation = Quaternion.Euler(GetRandomRotation());
 			foreach (var target in shootingTargets)
 			{
 				target.SetActive(true);
@@ -39,4 +40,17 @@ public class LevelSegment : MonoBehaviour
         if (transform.localPosition.z < despawnDist)
             onDespawnDistReached(this);
     }
+
+    private Vector3 GetRandomRotation()
+    {
+        var rand = UnityEngine.Random.Range(0, 4);
+        return rand switch
+        {
+            0 => new Vector3(0, 0, 0),
+            1 => new Vector3(0, 0, 90),
+            2 => new Vector3(0, 0, 180),
+            3 => new Vector3(0, 0, 270),
+            _ => throw new NotImplementedException(),
+        };
+	}
 }

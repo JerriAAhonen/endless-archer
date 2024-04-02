@@ -23,7 +23,7 @@ public class GameManager : PersistentSingleton<GameManager>
 		CursorController.OnStartLevel();
 	}
 
-	public void OnLevelEnded()
+	public void OnGameOver()
 	{
 		OpenMenu();
 	}

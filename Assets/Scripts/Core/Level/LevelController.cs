@@ -17,33 +17,33 @@ public class LevelController : MonoBehaviour
 
 	private readonly float defaultComboDecayDuration = 2f;
 
-	private LevelState state;
-
 	private ScoreController scoreController;
 
+	public LevelState State { get; private set; }
 	public ScoreController Score => scoreController;
 	public FloatingTextController FloatingText => floatingTextController;
 
 	private void Start()
 	{
-		state = LevelState.Idle;
+		State = LevelState.Idle;
 
 		playerController.Init(this);
+		segmentController.Init(this);
 		floatingTextController.Init(playerController.CameraTransform);
 		uiCoreController.SetVisible(false);
 	}
 
 	public void StartLevel()
 	{
-		if (state == LevelState.OnGoing)
+		if (State == LevelState.OnGoing)
 			return;
 
-		state = LevelState.OnGoing;
+		State = LevelState.OnGoing;
 
 		scoreController = new ScoreController(defaultComboDecayDuration);
 		scoreController.Score.AddListener(OnAddScore);
 
-		segmentController.StartLevel();
+		segmentController.OnStartLevel();
 		playerController.OnStartLevel();
 		uiCoreController.SetVisible(true);
 
@@ -55,15 +55,16 @@ public class LevelController : MonoBehaviour
 
 	public void GameOver()
 	{
-		if (state == LevelState.Idle)
+		if (State == LevelState.Idle)
 			return;
 
-		state = LevelState.Idle;
+		State = LevelState.Idle;
 
-		playerController.OnLevelEnded();
+		playerController.OnGameOver();
+		segmentController.OnGameOver();
 		uiCoreController.SetVisible(false);
 		CheckHighscore();
-		GameManager.Instance.OnLevelEnded();
+		GameManager.Instance.OnGameOver();
 		
 		void CheckHighscore()
 		{
