@@ -1801,7 +1801,7 @@ MonoBehaviour:
   segmentDB: {fileID: 11400000, guid: ead638bf0e7ce4d349da51dd3c010a71, type: 2}
   segmentContainer: {fileID: 299091977}
   segmentAmount: 10
-  segmentLength: 10
+  segmentLength: 20
   movementSpeed: 1
 --- !u!1 &983726510
 GameObject:
@@ -3837,6 +3837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root: {fileID: 100369546}
+  collider: {fileID: 1831054812}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 128

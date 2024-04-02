@@ -78,6 +78,8 @@ public class LevelSegmentController : MonoBehaviour
 		}
 
 		var newSegment = segmentInstances[newSegmentType][0];
+		segmentInstances[newSegmentType].RemoveAt(0);
+
 		newSegment.Activate(true);
 		newSegment.transform.localPosition = GetSpawnPos();
 		activeSegments.Add(newSegment);
@@ -90,7 +92,7 @@ public class LevelSegmentController : MonoBehaviour
 			SpawnNewSegment(LevelSegmentType.Default);
 		}
 	}
-
+	
 	private void SpawnNewSegment(LevelSegmentType type)
 	{
 		var segment = Instantiate(segmentDB.Get(type), segmentContainer);

@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root: {fileID: 2447866971130685597}
+  collider: {fileID: 8394271163231469297}
   arrowMask:
     serializedVersion: 2
     m_Bits: 256

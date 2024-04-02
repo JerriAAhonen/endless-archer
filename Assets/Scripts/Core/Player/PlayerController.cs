@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 	[SerializeField] private GameObject root;
+	[SerializeField] new private Collider collider;
 	[Space]
 	[SerializeField] private LayerMask obstacleLayer;
 	[Space]
@@ -96,6 +97,7 @@ public class PlayerController : MonoBehaviour
 	private void SetActive(bool active)
 	{
 		root.SetActive(active);
+		collider.enabled = active;
 	}
 
 	private void OnAimSensitivityUpdated()
