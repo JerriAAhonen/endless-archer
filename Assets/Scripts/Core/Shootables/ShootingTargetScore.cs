@@ -9,7 +9,7 @@ public class ShootingTargetScore : ShootingTargetBase
 
 	protected override void OnShot()
 	{
-		GameManager.Instance.LevelController.FloatingText.ShowText(transform.position + Vector3.up * labelOffset, text, color);
-		GameManager.Instance.LevelController.Score.Add(pointValue);
+		GameManager.Instance.LevelController.ShowFloatingText(transform.position + Vector3.up * labelOffset, text, color);
+		GameManager.Instance.LevelController.AddScore(pointValue);
 	}
 }

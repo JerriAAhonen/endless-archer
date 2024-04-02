@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class UIScoreView : MonoBehaviour
 {
-	[SerializeField] private TextMeshProUGUI label;
+	[SerializeField] private TextMeshProUGUI scoreLabel;
+	[SerializeField] private TextMeshProUGUI comboLabel;
 
 	public void SetScore(int score)
 	{
-		label.text = score.ToCustomString();
+		scoreLabel.text = score.ToCustomString();
+	}
+
+	public void SetCombo(int combo)
+	{
+		comboLabel.text = $"{combo}x";
 	}
 }
