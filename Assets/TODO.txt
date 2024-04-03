@@ -1,0 +1,31 @@
+03.04.24
+
+[] Settings menu in level
+
+[] Point targets get smaller the more they are worth
+[] More points when shooting farther away
+
+[] Arrow textures
+[] Bow textures
+[] Wall textures
+[] Obstacle textures
+
+[] Distance fog
+
+[] Arrow trail
+[] Target hit VFX
+[] Obstacle hit VFX
+
+[] Sounds
+[] Bow stretch
+[] Bow shoot
+[] Arrow hit
+[] Target hit
+[] Music
+
+[] Check aim sensitivity is working
+
+[] Title in mainmenu
+[] Main menu buttons could be better
+[] 3D texts ingame / floating text animations
+[] Score display animations
