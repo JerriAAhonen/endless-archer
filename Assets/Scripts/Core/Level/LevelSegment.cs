@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class LevelSegment : MonoBehaviour
@@ -52,4 +53,11 @@ public class LevelSegment : MonoBehaviour
             _ => throw new NotImplementedException(),
         };
 	}
+
+    [Button("Refresh Targets")]
+    private void EDITOR_GetTargets()
+    {
+        shootingTargets.Clear();
+        shootingTargets.AddRange(GetComponentsInChildren<ShootingTargetBase>());
+    }
 }

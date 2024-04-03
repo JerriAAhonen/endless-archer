@@ -97,4 +97,9 @@ public class LevelController : MonoBehaviour
 	{
 		floatingTextController.ShowText(pos, text, color);
 	}
+
+	public void RotateLevel(bool clockwise)
+	{
+		segmentController.Rotate(clockwise);
+	}
 }

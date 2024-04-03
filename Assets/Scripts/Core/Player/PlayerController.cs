@@ -61,8 +61,8 @@ public class PlayerController : MonoBehaviour
 			if (xRotation.Approximately(0f) && yRotation.Approximately(0f))
 				return;
 
-			xRotation = Mathf.MoveTowards(xRotation, 0f, Time.deltaTime);
-			yRotation = Mathf.MoveTowards(yRotation, 0f, Time.deltaTime);
+			xRotation = Mathf.MoveTowards(xRotation, 0f, Time.deltaTime * 10);
+			yRotation = Mathf.MoveTowards(yRotation, 0f, Time.deltaTime * 10);
 		}
 
 		rotationContainer.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
 	private void SetActive(bool active)
 	{
-		root.SetActive(active);
+		//root.SetActive(active);
 		collider.enabled = active;
 	}
 

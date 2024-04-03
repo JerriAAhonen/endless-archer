@@ -79,11 +79,10 @@ public class Bow : MonoBehaviour
 	public void OnLevelEnded()
 	{
 		root.SetActive(false);
-
-		if (arrow)
+		arrow = null;
+		foreach (Transform t in arrowContainer) 
 		{
-			Destroy(arrow.gameObject);
-			arrow = null;
+			Destroy(t.gameObject);
 		}
 	}
 

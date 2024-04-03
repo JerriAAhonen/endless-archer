@@ -23,6 +23,10 @@ public class LevelSegmentController : MonoBehaviour
 	private LevelController controller;
 	private float movementSpeed;
 
+	// Rotation
+	private int? rotateTweenId;
+	private Vector3 targetRot;
+
 	private float DespawnDistance => segmentContainer.position.z - segmentLength * 2;
 
 	public void Init(LevelController controller)
@@ -51,11 +55,24 @@ public class LevelSegmentController : MonoBehaviour
 		StartCoroutine(ResetRoutine());
 	}
 
+	public void Rotate(bool clockwise)
+	{
+		if (rotateTweenId.HasValue)
+			LeanTween.cancel(rotateTweenId.Value);
+
+		targetRot.z += clockwise ? -90 : 90;
+
+		rotateTweenId = LeanTween.rotateLocal(segmentContainer.gameObject, targetRot, 0.5f)
+			.setOnComplete(() => rotateTweenId = null)
+			.setEaseOutBack()
+			.uniqueId;
+	}
+
 	private IEnumerator ResetRoutine()
 	{
 		for (int i = 0; i < segmentAmount; i++)
 		{
-			var segment = activeSegments[^1];
+			var segment = activeSegments.Last();
 			segment.Activate(false);
 			activeSegments.Remove(segment);
 			segmentInstances[segment.Type].Add(segment);
@@ -89,22 +106,6 @@ public class LevelSegmentController : MonoBehaviour
 
 	private void Update()
 	{
-		#region debug
-
-		if (Input.GetKeyDown(KeyCode.Q))
-		{
-			// Rotate counterclock-wise
-			LeanTween.rotateAround(segmentContainer.gameObject, Vector3.forward, 90, 0.5f).setEaseOutBack();
-		}
-
-		if (Input.GetKeyDown(KeyCode.E))
-		{
-			// Rotate clock-wise
-			LeanTween.rotateAround(segmentContainer.gameObject, Vector3.forward, -90, 0.5f).setEaseOutBack();
-		}
-
-		#endregion
-
 		for (int i = 0; i < activeSegments.Count; i++)
 		{
 			activeSegments[i].Translate(-movementSpeed); // Inverse movementSpeed to make segments move backwards by default
