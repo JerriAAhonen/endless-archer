@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
 			yRotation += mouseX;
 			yRotation = Mathf.Clamp(yRotation, -90f, 90f);
 		}
-		else if (!UIPauseMenu.GamePaused) // Don't reset rotation when pausing the game
+		else if (!GlobalGameState.Paused) // Don't reset rotation when pausing the game
 		{
 			// Reset player rotation to 0 for main menu
 			if (xRotation.Approximately(0f) && yRotation.Approximately(0f))

@@ -9,8 +9,6 @@ public class UIPauseMenu : MonoBehaviour
 	[SerializeField] private Button buttonMainMenu;
 	[SerializeField] private UISettingsContent settingsContent;
 
-	public static bool GamePaused { get; private set; }
-
 	private void Awake()
 	{
 		buttonCorner.onClick.AddListener(OnPause);
@@ -30,13 +28,13 @@ public class UIPauseMenu : MonoBehaviour
 
 	private void OnPause()
 	{
-		GamePaused = !GamePaused;
-		CursorController.OnPause(GamePaused);
-		EventBus<Event_PauseGame>.Raise(new Event_PauseGame { pause = GamePaused });
+		var paused = !GlobalGameState.Paused;
+		GlobalGameState.SetGamePaused(paused);
+		CursorController.OnPause(paused);
 
-		hideContainer.SetActive(GamePaused);
+		hideContainer.SetActive(paused);
 
-		if (GamePaused)
+		if (paused)
 			settingsContent.Open();
 		else
 			settingsContent.Close();

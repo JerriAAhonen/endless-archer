@@ -33,12 +33,14 @@ public static class LevelSegmentTypeUtil
 		if (IsWall(lastType))
 		{
 			filter.AddRange(AllWalls());
+			filter.AddRange(AllHoles());
 			return filter;
 		}
 
 		if (IsHole(lastType))
 		{
 			filter.AddRange(AllHoles());
+			filter.AddRange(AllWalls());
 			return filter;
 		}	
 

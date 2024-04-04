@@ -20,6 +20,9 @@ public class LevelSegmentController : MonoBehaviour
 	private readonly List<LevelSegment> activeSegments = new();
 	private readonly Dictionary<LevelSegmentType, List<LevelSegment>> segmentInstances = new();
 
+	// Events
+	private EventBinding<Event_RotateLevel> rotateLevelBinding;
+
 	private LevelController controller;
 	private float movementSpeed;
 
@@ -40,6 +43,28 @@ public class LevelSegmentController : MonoBehaviour
 		}
 	}
 
+	private void OnEnable()
+	{
+		rotateLevelBinding = new EventBinding<Event_RotateLevel>(OnRotate);
+		EventBus<Event_RotateLevel>.Register(rotateLevelBinding);
+	}
+
+	private void OnDisable()
+	{
+		EventBus<Event_RotateLevel>.Deregister(rotateLevelBinding);
+	}
+
+	private void Update()
+	{
+		if (GlobalGameState.Paused) return;
+
+		TranslateActiveSegments();
+		
+		if (controller.State == LevelState.Idle) return;
+		
+		IncreaseMovementSpeed();
+	}
+
 	public void OnStartLevel()
 	{
 		movementSpeed = baseMovementSpeed;
@@ -48,25 +73,11 @@ public class LevelSegmentController : MonoBehaviour
 		StartCoroutine(InitialSpeedUpRoutine());
 	}
 
-
 	public void OnGameOver()
 	{
 		movementSpeed = baseMovementSpeed;
 		StopAllCoroutines();
 		StartCoroutine(ResetRoutine());
-	}
-
-	public void Rotate(bool clockwise)
-	{
-		if (rotateTweenId.HasValue)
-			LeanTween.cancel(rotateTweenId.Value);
-
-		targetRot.z += clockwise ? -90 : 90;
-
-		rotateTweenId = LeanTween.rotateLocal(segmentContainer.gameObject, targetRot, 0.5f)
-			.setOnComplete(() => rotateTweenId = null)
-			.setEaseOutBack()
-			.uniqueId;
 	}
 
 	private IEnumerator ResetRoutine()
@@ -105,19 +116,16 @@ public class LevelSegmentController : MonoBehaviour
 		}
 	}
 
-	private void Update()
+	private void TranslateActiveSegments()
 	{
-		if (UIPauseMenu.GamePaused)
-			return;
-
 		for (int i = 0; i < activeSegments.Count; i++)
 		{
 			activeSegments[i].Translate(-movementSpeed); // Inverse movementSpeed to make segments move backwards by default
 		}
+	}
 
-		if (controller.State == LevelState.Idle)
-			return;
-
+	private void IncreaseMovementSpeed()
+	{
 		movementSpeed += movementSpeedIncrease * Time.deltaTime;
 	}
 
@@ -177,5 +185,18 @@ public class LevelSegmentController : MonoBehaviour
 		if (activeSegments == null || activeSegments.Count == 0)
 			return Vector3.zero;
 		return activeSegments.Last().transform.localPosition + Vector3.forward * segmentLength;
+	}
+
+	private void OnRotate(Event_RotateLevel @event)
+	{
+		if (rotateTweenId.HasValue)
+			LeanTween.cancel(rotateTweenId.Value);
+
+		targetRot.z += @event.clockwise ? -90 : 90;
+
+		rotateTweenId = LeanTween.rotateLocal(segmentContainer.gameObject, targetRot, 0.5f)
+			.setOnComplete(() => rotateTweenId = null)
+			.setEaseOutBack()
+			.uniqueId;
 	}
 }

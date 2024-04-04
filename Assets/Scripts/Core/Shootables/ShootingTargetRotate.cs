@@ -9,6 +9,6 @@ public class ShootingTargetRotate : ShootingTargetBase
 
 	protected override void OnShot()
 	{
-		GameManager.Instance.LevelController.RotateLevel(clockWise);
+		EventBus<Event_RotateLevel>.Raise(new Event_RotateLevel { clockwise = clockWise });
 	}
 }

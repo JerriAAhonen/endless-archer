@@ -1,6 +1,6 @@
 03.04.24
 
-[] Settings menu in level
+[x] Settings menu in level
 
 [] Point targets get smaller the more they are worth
 [] More points when shooting farther away
@@ -23,7 +23,7 @@
 [] Target hit
 [] Music
 
-[] Check aim sensitivity is working
+[x] Check aim sensitivity is working
 
 [] Title in mainmenu
 [] Main menu buttons could be better
