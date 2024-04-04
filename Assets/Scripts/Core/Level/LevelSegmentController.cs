@@ -48,6 +48,7 @@ public class LevelSegmentController : MonoBehaviour
 		StartCoroutine(InitialSpeedUpRoutine());
 	}
 
+
 	public void OnGameOver()
 	{
 		movementSpeed = baseMovementSpeed;
@@ -106,6 +107,9 @@ public class LevelSegmentController : MonoBehaviour
 
 	private void Update()
 	{
+		if (UIPauseMenu.GamePaused)
+			return;
+
 		for (int i = 0; i < activeSegments.Count; i++)
 		{
 			activeSegments[i].Translate(-movementSpeed); // Inverse movementSpeed to make segments move backwards by default

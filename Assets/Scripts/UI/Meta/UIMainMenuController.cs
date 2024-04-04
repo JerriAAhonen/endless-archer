@@ -3,8 +3,9 @@ using UnityEngine;
 
 public enum MenuPageType
 {
-	Main,
-	Settings
+	None = 0,
+	Main = 1,
+	Settings = 2,
 }
 
 public class UIMainMenuController : MonoBehaviour
@@ -22,18 +23,15 @@ public class UIMainMenuController : MonoBehaviour
 		settingsPage.Init(this);
 	}
 
-	/// <summary>
-	/// Toggles main menu completely on or off
-	/// </summary>
-	public void SetVisible(bool visible)
+	public void Close()
 	{
-		root.SetActive(visible);
+		SwitchPage(MenuPageType.None);
 	}
 
 	/// <summary>
 	/// Close all open pages, open page of newType
 	/// </summary>
-	/// <param name="newType">Type of page to open</param>
+	/// <param name="newType">Type of page to open, None closes all pages</param>
 	public void SwitchPage(MenuPageType newType)
 	{
 		while (openPages.Count > 0)
@@ -42,6 +40,9 @@ public class UIMainMenuController : MonoBehaviour
 			openPages.Peek().SetOpendedAdditively(false);
 			openPages.Pop();
 		}
+
+		if (newType == MenuPageType.None)
+			return;
 
 		var page = GetPage(newType);
 		page.Enter();
@@ -56,14 +57,28 @@ public class UIMainMenuController : MonoBehaviour
 	{
 		var page = GetPage(additiveType);
 		openPages.Push(page);
-		page.Enter();
 		page.SetOpendedAdditively(true);
+		page.Enter();
+	}
+
+	/// <summary>
+	/// Closes the top page in the stack
+	/// </summary>
+	public void CloseTopPage()
+	{
+		if (openPages.Count == 0)
+			return;
+
+		openPages.Peek().Exit();
+		openPages.Peek().SetOpendedAdditively(false);
+		openPages.Pop();
 	}
 
 	private UIMenuPageBase GetPage(MenuPageType type)
 	{
 		return type switch
 		{
+			MenuPageType.None => null,
 			MenuPageType.Main => mainPage,
 			MenuPageType.Settings => settingsPage,
 			_ => throw new System.NotImplementedException(),

@@ -40,6 +40,7 @@ public class Bow : MonoBehaviour
 		if (controller == null) return;
 		if (!controller.ControlsEnabled) return;
 
+		// TODO Switch to input manager events
 		if (Input.GetMouseButton(0))
 		{
 			elapsedDraw += Time.deltaTime;

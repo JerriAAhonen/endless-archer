@@ -7,9 +7,8 @@ public class GameManager : PersistentSingleton<GameManager>
 
 	public LevelController LevelController => levelController;
 
-	public void OpenMenu()
+	public void OpenMainMenu()
 	{
-		mainMenuController.SetVisible(true);
 		mainMenuController.SwitchPage(MenuPageType.Main);
 
 		CursorController.OnOpenMenu();
@@ -17,7 +16,7 @@ public class GameManager : PersistentSingleton<GameManager>
 
 	public void StartLevel()
 	{
-		mainMenuController.SetVisible(false);
+		mainMenuController.Close();
 		levelController.StartLevel();
 
 		CursorController.OnStartLevel();
@@ -25,7 +24,7 @@ public class GameManager : PersistentSingleton<GameManager>
 
 	public void OnGameOver()
 	{
-		OpenMenu();
+		OpenMainMenu();
 	}
 
 	public void QuitGame()

@@ -29,3 +29,6 @@
 [] Main menu buttons could be better
 [] 3D texts ingame / floating text animations
 [] Score display animations
+
+[] Input controller for new input system
+[] Key binding images for all keys

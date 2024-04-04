@@ -2,17 +2,26 @@
 
 public static class CursorController
 {
-	public static void OnStartLevel()
+	public static void OnStartLevel() => Hide();
+	public static void OnOpenMenu() => ConfineAndShow();
+	public static void OnEndLevel() => ConfineAndShow();
+	public static void OnPause(bool pause)
 	{
-		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
+		if (pause)
+			ConfineAndShow();
+		else
+			Hide();
 	}
 
-	public static void OnOpenMenu()
+	private static void ConfineAndShow()
 	{
 		Cursor.lockState = CursorLockMode.Confined;
 		Cursor.visible = true;
 	}
 
-	public static void OnEndLevel() => OnOpenMenu();
+	private static void Hide()
+	{
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
+	}
 }

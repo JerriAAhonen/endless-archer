@@ -4,17 +4,21 @@ public class PlayerController : MonoBehaviour
 {
 	[SerializeField] private GameObject root;
 	[SerializeField] new private Collider collider;
-	[Space]
-	[SerializeField] private LayerMask obstacleLayer;
-	[Space]
 	[SerializeField] private Bow bow;
 	[SerializeField] private Transform rotationContainer;
 	[SerializeField] private Transform camTm;
+	[Header("Layers")]
+	[SerializeField] private LayerMask obstacleLayer;
+
+	// Events
+	private EventBinding<Event_PauseGame> pauseGameBinding;
 
 	private LevelController controller;
 
+	// Settings
 	private float aimSensitivity;
 
+	// Input
 	private float xRotation;
 	private float yRotation;
 
@@ -35,11 +39,16 @@ public class PlayerController : MonoBehaviour
 
 	private void OnEnable()
 	{
+		pauseGameBinding = new EventBinding<Event_PauseGame>(OnPause);
+		EventBus<Event_PauseGame>.Register(pauseGameBinding);
+
 		PlayerPrefsUtil.PlayerPrefsUpdated += OnAimSensitivityUpdated;
 	}
 
 	private void OnDisable()
 	{
+		EventBus<Event_PauseGame>.Deregister(pauseGameBinding);
+
 		PlayerPrefsUtil.PlayerPrefsUpdated -= OnAimSensitivityUpdated;
 	}
 
@@ -47,6 +56,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (ControlsEnabled)
 		{
+			// TODO Switch to input manager events
 			float mouseX = Input.GetAxis("Mouse X") * aimSensitivity * Time.deltaTime * 100;
 			float mouseY = Input.GetAxis("Mouse Y") * aimSensitivity * Time.deltaTime * 100;
 
@@ -56,8 +66,9 @@ public class PlayerController : MonoBehaviour
 			yRotation += mouseX;
 			yRotation = Mathf.Clamp(yRotation, -90f, 90f);
 		}
-		else
+		else if (!UIPauseMenu.GamePaused) // Don't reset rotation when pausing the game
 		{
+			// Reset player rotation to 0 for main menu
 			if (xRotation.Approximately(0f) && yRotation.Approximately(0f))
 				return;
 
@@ -94,12 +105,16 @@ public class PlayerController : MonoBehaviour
 
 	private void SetActive(bool active)
 	{
-		//root.SetActive(active);
 		collider.enabled = active;
 	}
 
 	private void OnAimSensitivityUpdated()
 	{
 		aimSensitivity = PlayerPrefsUtil.AimSensitivity;
+	}
+
+	private void OnPause(Event_PauseGame @event)
+	{
+		ControlsEnabled = !@event.pause;
 	}
 }

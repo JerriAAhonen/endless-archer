@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class UISettingsPage : UIMenuPageBase
 {
-	[SerializeField] private Slider sfxVolumeSlider;
-	[SerializeField] private Slider musicVolumeSlider;
-	[SerializeField] private Slider aimSensitivitySlider;
+	[SerializeField] private UISettingsContent content;
 	[SerializeField] private Button buttonReturn;
 
 	private void Awake()
@@ -19,49 +17,20 @@ public class UISettingsPage : UIMenuPageBase
 
 	public override void Enter()
 	{
-		sfxVolumeSlider.value = PlayerPrefsUtil.SFXVolume;
-		musicVolumeSlider.value = PlayerPrefsUtil.MusicVolume;
-		aimSensitivitySlider.value = PlayerPrefsUtil.AimSensitivity;
-
+		content.Open();
 		gameObject.SetActive(true);
 	}
 
 	public override void Exit()
 	{
+		content.Close();
 		gameObject.SetActive(false);
-
-		PlayerPrefsUtil.SFXVolume = sfxVolumeSlider.value;
-		PlayerPrefsUtil.MusicVolume = musicVolumeSlider.value;
-		PlayerPrefsUtil.AimSensitivity = aimSensitivitySlider.value;
 	}
 
 	#endregion
-
-	#region Unity Callbacks
-
-	public void OnSFXVolume()
-	{
-		AudioManager.Instance.SetSFXVolume(sfxVolumeSlider.value);
-	}
-
-	public void OnMusicVolume()
-	{
-		AudioManager.Instance.SetMusicVolume(musicVolumeSlider.value);
-	}
-
-	public void OnAimSensitivity()
-	{
-
-	}
-
-	#endregion
-
-	#region Button Callbacks
 
 	private void OnReturn()
 	{
 		controller.SwitchPage(MenuPageType.Main);
 	}
-
-	#endregion
 }
