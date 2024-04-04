@@ -642,7 +642,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1381142654582506294}
         m_TargetAssemblyTypeName: UISettingsContent, Assembly-CSharp
         m_MethodName: OnSFXVolume
         m_Mode: 1
@@ -1250,7 +1250,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1381142654582506294}
         m_TargetAssemblyTypeName: UISettingsContent, Assembly-CSharp
         m_MethodName: OnAimSensitivity
         m_Mode: 1
@@ -1522,7 +1522,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1381142654582506294}
         m_TargetAssemblyTypeName: UISettingsContent, Assembly-CSharp
         m_MethodName: OnMusicVolume
         m_Mode: 1

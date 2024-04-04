@@ -23,9 +23,9 @@ public class UIMainMenuController : MonoBehaviour
 		settingsPage.Init(this);
 	}
 
-	public void Close()
+	public void SetActive(bool active)
 	{
-		SwitchPage(MenuPageType.None);
+		root.SetActive(active);
 	}
 
 	/// <summary>
