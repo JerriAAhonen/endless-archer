@@ -4,12 +4,17 @@ public class ShootingTargetScore : ShootingTargetBase
 {
 	[Header("Points")]
 	[SerializeField] private int pointValue;
-	[SerializeField] private string text;
 	[SerializeField] private Color color;
 
 	protected override void OnShot()
 	{
-		GameManager.Instance.LevelController.ShowFloatingText(transform.position + Vector3.up * labelOffset, text, color);
-		GameManager.Instance.LevelController.AddScore(pointValue);
+		var args = new LevelController.ScoreArgs
+		{
+			amount = pointValue,
+			targetPosition = transform.position,
+			floatingTextPos = transform.position + Vector3.up * labelOffset,
+			floatingTextColor = color
+		};
+		GameManager.Instance.LevelController.AddScore(args);
 	}
 }

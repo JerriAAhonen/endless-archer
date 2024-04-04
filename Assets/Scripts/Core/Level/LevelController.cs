@@ -88,12 +88,34 @@ public class LevelController : MonoBehaviour
 		}
 	}
 
-	public void AddScore(int amount)
+	public struct ScoreArgs
 	{
-		scoreController.Add(amount);
+		public int amount;
+		public Vector3 targetPosition;
+
+		public Vector3 floatingTextPos;
+		public Color floatingTextColor;
 	}
 
-	public void ShowFloatingText(Vector3 pos, string text, Color color)
+	public void AddScore(ScoreArgs args)
+	{
+		// Vector3.Distance can be slow, but here it's not used that often
+		var distToPlayer = Vector3.Distance(playerController.transform.position, args.targetPosition);
+		
+		var multiplier = 1f;
+		if (distToPlayer > 10)
+			multiplier = distToPlayer / 10f;
+
+		var finalScore = Mathf.RoundToInt(args.amount * multiplier);
+		var floatingText = $"+ {finalScore}";
+
+		Debug.Log($"dist:{distToPlayer}, score:{args.amount}, final:{finalScore}");
+
+		scoreController.Add(finalScore);
+		ShowFloatingText(args.floatingTextPos, floatingText, args.floatingTextColor);
+	}
+
+	private void ShowFloatingText(Vector3 pos, string text, Color color)
 	{
 		floatingTextController.ShowText(pos, text, color);
 	}

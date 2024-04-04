@@ -2,13 +2,16 @@
 
 [x] Settings menu in level
 
-[] Point targets get smaller the more they are worth
-[] More points when shooting farther away
+[x] Point targets get smaller the more they are worth
+[x] More points when shooting farther away
+[] More randomized variations of default segment
 
-[] Arrow textures
-[] Bow textures
-[] Wall textures
-[] Obstacle textures
+[] Pool arrows
+
+[x] Arrow textures
+[x] Bow textures
+[x] Wall textures
+[x] Obstacle textures
 
 [] Distance fog
 
