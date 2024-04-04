@@ -13,7 +13,7 @@
 [x] Wall textures
 [x] Obstacle textures
 
-[] Distance fog
+[x] Distance fog
 
 [] Arrow trail
 [] Target hit VFX
