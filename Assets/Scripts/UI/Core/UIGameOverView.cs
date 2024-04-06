@@ -10,6 +10,9 @@ public class UIGameOverView : UICoreViewBase
 	[SerializeField] private TextMeshProUGUI highscore;
 	[SerializeField] private UIRainbowText highscoreRainbow;
 	[SerializeField] private Button buttonContinue;
+	[Space]
+	[SerializeField] private float scoreAnimDur = 1f;
+	[SerializeField] private float newHighscoreAnimDurMultiplier = 1.5f;
 
 	private Action continueCallback;
 
@@ -23,11 +26,15 @@ public class UIGameOverView : UICoreViewBase
 	{
 		SetVisible(true);
 
-		this.score.text = score.ToCustomString();
-		this.highscore.text = highscore.ToCustomString();
-
-		if (isNewHighscore)
-			highscoreRainbow.Animate();
+		this.score.text = "0";
+		this.highscore.text = "0";
+		UIAnimUtil.AnimateNumber(this.score, 0, score, scoreAnimDur);
+		var highscoreAnimDur = isNewHighscore ? scoreAnimDur * newHighscoreAnimDurMultiplier : scoreAnimDur;
+		UIAnimUtil.AnimateNumber(this.highscore, 0, highscore, highscoreAnimDur, () =>
+		{
+			if (isNewHighscore)
+				highscoreRainbow.Animate();
+		});
 
 		continueCallback = onContinue;
 	}

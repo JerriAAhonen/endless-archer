@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: BowShoot-SFX
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: bc23113a9b55fec4a9a25373c9ddcc6a, type: 3}
-  volume: 1
+  - {fileID: 8300000, guid: 81e97f61db6ad324b9f275ffe2bd3e55, type: 3}
+  volume: 0.5
   volumeVariance: 0
   pitch: 1
-  pitchVariance: 0
+  pitchVariance: 0.05
   minInterval: 0
   delay: 0

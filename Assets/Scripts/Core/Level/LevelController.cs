@@ -70,7 +70,10 @@ public class LevelController : MonoBehaviour
 
 		GlobalGameState.SetGameOngoing(false);
 		CursorController.OnGameOver();
+
 		AudioManager.Instance.SetMusicLowpass(true);
+		AudioManager.Instance.PlayOnce(gameOverSFX);
+		
 		EventBus<Event_LevelEnded>.Raise(new Event_LevelEnded());
 
 		scoreController.OnGameOver(out var newHighscore);

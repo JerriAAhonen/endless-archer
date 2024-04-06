@@ -16,6 +16,8 @@ public class LevelSegmentController : MonoBehaviour
 	[SerializeField] private float initialSpeedUpFinalSpeed; // How fast should we be going once the initial windup is complete?
 	[Space]
 	[SerializeField] private float movementSpeedIncrease; // How fast should we be speeding up after the initial windup?
+	[Header("SFX")]
+	[SerializeField] private AudioEvent rotateSFX;
 
 	private readonly List<LevelSegment> activeSegments = new();
 	private readonly Dictionary<LevelSegmentType, List<LevelSegment>> segmentInstances = new();
@@ -191,6 +193,8 @@ public class LevelSegmentController : MonoBehaviour
 	{
 		if (rotateTweenId.HasValue)
 			LeanTween.cancel(rotateTweenId.Value);
+
+		AudioManager.Instance.PlayOnce(rotateSFX);
 
 		targetRot.z += @event.clockwise ? -90 : 90;
 

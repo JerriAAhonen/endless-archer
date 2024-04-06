@@ -2734,6 +2734,7 @@ MonoBehaviour:
   initialSpeedUpDur: 5
   initialSpeedUpFinalSpeed: 5
   movementSpeedIncrease: 0.1
+  rotateSFX: {fileID: 11400000, guid: 032a2eb2c0196bf45972b57dff5a47f4, type: 2}
 --- !u!1 &983726510
 GameObject:
   m_ObjectHideFlags: 0
@@ -3156,6 +3157,8 @@ MonoBehaviour:
   highscore: {fileID: 60732165}
   highscoreRainbow: {fileID: 60732167}
   buttonContinue: {fileID: 1035979679}
+  scoreAnimDur: 1
+  newHighscoreAnimDurMultiplier: 1.5
 --- !u!1 &1214204129
 GameObject:
   m_ObjectHideFlags: 3
@@ -3909,7 +3912,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   root: {fileID: 1791831275}
   scoreLabel: {fileID: 1262660634}
-  comboLabel: {fileID: 0}
+  comboLabel: {fileID: 125217484}
+  scoreAnimDur: 0.7
+  scaleAnimDur: 0.4
+  scaleAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.04273896
+      outSlope: 0.04273896
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.091397874
+    - serializedVersion: 3
+      time: 0.1
+      value: 1.5
+      inSlope: -0.0039923843
+      outSlope: -0.0039923843
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1342696083
 GameObject:
   m_ObjectHideFlags: 0
