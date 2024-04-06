@@ -1,4 +1,4 @@
-03.04.24
+07.04.24
 
 [x] Settings menu in level
 
@@ -6,7 +6,7 @@
 [x] More points when shooting farther away
 [] More randomized variations of default segment
 
-[] Pool arrows
+[x] Pool arrows
 
 [x] Arrow textures
 [x] Bow textures
@@ -15,23 +15,27 @@
 
 [x] Distance fog
 
-[] Arrow trail
-[] Target hit VFX
-[] Obstacle hit VFX
+[x] Arrow trail
+[x] Target hit VFX
+[x] Obstacle hit VFX
 
-[] Sounds
-[] Bow stretch
-[] Bow shoot
-[] Arrow hit
-[] Target hit
-[] Music
+[x] Sounds
+[x] Bow stretch
+[x] Bow shoot
+[x] Target hit
+[x] Music
 
 [x] Check aim sensitivity is working
 
-[] Title in mainmenu
-[] Main menu buttons could be better
+[x] Game end screen
+[x] Final score
+[x] Highscore
+[] Final time?
+
+[x] Title in mainmenu
+[x] Main menu buttons could be better
 [] 3D texts ingame / floating text animations
-[] Score display animations
+[x] Score display animations
 
 [] Input controller for new input system
-[] Key binding images for all keys
+[] Key binding images for all keys?
