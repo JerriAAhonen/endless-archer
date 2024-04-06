@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIPauseMenu : MonoBehaviour
+public class UIPauseMenuView : UICoreViewBase
 {
+	[Space]
 	[SerializeField] private GameObject hideContainer;
 	[SerializeField] private Button buttonCorner;
 	[SerializeField] private Button buttonResume;
@@ -19,6 +20,9 @@ public class UIPauseMenu : MonoBehaviour
 
 	private void Update()
 	{
+		if (!GlobalGameState.GameOngoing)
+			return;
+
 		// TODO Switch to input manager events
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{

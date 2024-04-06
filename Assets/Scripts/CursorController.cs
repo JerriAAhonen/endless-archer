@@ -4,7 +4,7 @@ public static class CursorController
 {
 	public static void OnStartLevel() => Hide();
 	public static void OnOpenMenu() => ConfineAndShow();
-	public static void OnEndLevel() => ConfineAndShow();
+	public static void OnGameOver() => ConfineAndShow();
 	public static void OnPause(bool pause)
 	{
 		if (pause)

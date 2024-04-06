@@ -42,4 +42,15 @@ public class ScoreController
 
 		Score.Value += amount * Combo;
 	}
+
+	public void OnGameOver(out bool newHighscore)
+	{
+		newHighscore = Score > PlayerPrefsUtil.Highscore;
+
+		if (newHighscore)
+		{
+			PlayerPrefsUtil.Highscore = Score;
+			PlayerPrefsUtil.HighscoreTime = TimeElapsed;
+		}
+	}
 }

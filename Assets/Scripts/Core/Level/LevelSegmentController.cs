@@ -60,7 +60,7 @@ public class LevelSegmentController : MonoBehaviour
 
 		TranslateActiveSegments();
 		
-		if (controller.State == LevelState.Idle) return;
+		if (!GlobalGameState.GameOngoing) return;
 		
 		IncreaseMovementSpeed();
 	}
@@ -137,7 +137,7 @@ public class LevelSegmentController : MonoBehaviour
 		segmentInstances[segment.Type].Add(segment);
 
 		// When game over / in mainmenu, spawn only default pieces
-		if (controller.State == LevelState.Idle)
+		if (!GlobalGameState.GameOngoing)
 		{
 			ActivateSegment(LevelSegmentType.Default);
 			return;

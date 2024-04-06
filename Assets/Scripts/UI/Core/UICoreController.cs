@@ -1,11 +1,27 @@
 using UnityEngine;
 
-public class UICoreController : MonoBehaviour
+public class UICoreController : UICoreViewBase
 {
-	[SerializeField] private GameObject root;
+	[Space]
+	[SerializeField] private UIReticle reticle;
 	[SerializeField] private UIScoreView score;
+	[SerializeField] private UIGameOverView gameOver;
+	[SerializeField] private UIPauseMenuView pauseMenu;
 
 	public UIScoreView Score => score;
+	public UIGameOverView GameOver => gameOver;
 
-	public void SetVisible(bool visible) => root.SetActive(visible);
+	public void OnStartLevel()
+	{
+		reticle.SetVisible(true);
+		score.SetVisible(true);
+		pauseMenu.SetVisible(true);
+	}
+
+	public void OnGameOver()
+	{
+		reticle.SetVisible(false);
+		score.SetVisible(false);
+		pauseMenu.SetVisible(false);
+	}
 }

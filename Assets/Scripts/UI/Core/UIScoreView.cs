@@ -1,8 +1,9 @@
 using TMPro;
 using UnityEngine;
 
-public class UIScoreView : MonoBehaviour
+public class UIScoreView : UICoreViewBase
 {
+	[Space]
 	[SerializeField] private TextMeshProUGUI scoreLabel;
 	[SerializeField] private TextMeshProUGUI comboLabel;
 

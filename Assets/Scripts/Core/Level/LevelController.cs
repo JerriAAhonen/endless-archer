@@ -1,28 +1,26 @@
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
-
-public enum LevelState
-{
-	Idle,
-	OnGoing
-}
 
 public class LevelController : MonoBehaviour
 {
+	[Header("Controllers")]
 	[SerializeField] private LevelSegmentController segmentController;
 	[SerializeField] private PlayerController playerController;
 	[SerializeField] private FloatingTextController floatingTextController;
+	[Header("UI")]
 	[SerializeField] private UICoreController uiCoreController;
+	[Header("SFX")]
+	[SerializeField] private AudioEvent gameOverSFX;
+	[SerializeField] private AudioEvent gainPointsSFX;
 
 	// Option to add challenge game modes where combos decay faster etc..
 	private readonly float defaultComboDecayDuration = 2f;
 
 	private ScoreController scoreController;
 
-	public LevelState State { get; private set; }
-
 	private void Start()
 	{
-		State = LevelState.Idle;
+		GlobalGameState.SetGameOngoing(false);
 
 		playerController.Init(this);
 		segmentController.Init(this);
@@ -32,7 +30,7 @@ public class LevelController : MonoBehaviour
 
 	private void Update()
 	{
-		if (State == LevelState.Idle)
+		if (!GlobalGameState.GameOngoing)
 			return;
 
 		scoreController?.Update(Time.deltaTime);
@@ -40,10 +38,10 @@ public class LevelController : MonoBehaviour
 
 	public void StartLevel()
 	{
-		if (State == LevelState.OnGoing)
+		if (GlobalGameState.GameOngoing)
 			return;
 
-		State = LevelState.OnGoing;
+		GlobalGameState.SetGameOngoing(true);
 
 		scoreController = new ScoreController(defaultComboDecayDuration);
 		scoreController.Score.AddListener(OnScoreChanged);
@@ -52,6 +50,7 @@ public class LevelController : MonoBehaviour
 		segmentController.OnStartLevel();
 		playerController.OnStartLevel();
 		uiCoreController.SetVisible(true);
+		uiCoreController.OnStartLevel();
 
 		void OnScoreChanged(int newScore)
 		{
@@ -66,26 +65,26 @@ public class LevelController : MonoBehaviour
 
 	public void GameOver()
 	{
-		if (State == LevelState.Idle)
+		if (!GlobalGameState.GameOngoing)
 			return;
 
-		State = LevelState.Idle;
+		GlobalGameState.SetGameOngoing(false);
+		CursorController.OnGameOver();
+		AudioManager.Instance.SetMusicLowpass(true);
 		EventBus<Event_LevelEnded>.Raise(new Event_LevelEnded());
 
+		scoreController.OnGameOver(out var newHighscore);
 		playerController.OnGameOver();
 		segmentController.OnGameOver();
-		uiCoreController.SetVisible(false);
-		CheckHighscore();
-		GameManager.Instance.OnGameOver();
-		
-		void CheckHighscore()
+
+		uiCoreController.OnGameOver();
+		uiCoreController.GameOver.Show(scoreController.Score, PlayerPrefsUtil.Highscore, newHighscore, OnContinue);
+
+		void OnContinue()
 		{
-			var oldHighscore = PlayerPrefsUtil.Highscore;
-			if (scoreController.Score > oldHighscore)
-			{
-				PlayerPrefsUtil.Highscore = scoreController.Score;
-				PlayerPrefsUtil.HighscoreTime = scoreController.TimeElapsed;
-			}
+			uiCoreController.SetVisible(false);
+			AudioManager.Instance.SetMusicLowpass(false);
+			GameManager.Instance.OnContinueAfterGameOver();
 		}
 	}
 
@@ -114,6 +113,7 @@ public class LevelController : MonoBehaviour
 
 		scoreController.Add(finalScore);
 		ShowFloatingText(args.floatingTextPos, floatingText, args.floatingTextColor);
+		AudioManager.Instance.PlayOnce(gainPointsSFX);
 	}
 
 	private void ShowFloatingText(Vector3 pos, string text, Color color)
