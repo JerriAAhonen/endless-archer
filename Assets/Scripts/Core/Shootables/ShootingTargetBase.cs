@@ -6,6 +6,7 @@ public abstract class ShootingTargetBase : MonoBehaviour
 {
 	[SerializeField] private GameObject root;
 	[SerializeField] new private Collider collider;
+	[SerializeField] private ParticleSystem onShotPS;
 	[Space]
 	[SerializeField] private LayerMask arrowMask;
 	[SerializeField] protected float labelOffset;
@@ -20,6 +21,7 @@ public abstract class ShootingTargetBase : MonoBehaviour
 		if (BitMaskUtil.MaskContainsLayer(arrowMask, collision.gameObject.layer))
 		{
 			OnShot();
+			onShotPS.Play();
 			SetActive(false);
 			Destroy(collision.gameObject);
 		}
