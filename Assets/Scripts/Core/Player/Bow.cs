@@ -1,44 +1,79 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class Bow : MonoBehaviour
 {
 	[SerializeField] private GameObject root;
-	[Space]
+	[Header("Draw")]
 	[SerializeField] private float maxDrawDur;
 	[SerializeField] private AnimationCurve drawSpeedCurve;
 	[SerializeField] private float drawVisualMultiplier = 1f;
 	[SerializeField] private float arrowOffset = 0.9f;
-	[Space]
+	[Header("Release")]
+	[SerializeField] private float releaseDur = 0.1f;
+	[SerializeField] private float newArrowDelay = 0.2f;
+	[Header("Arrow")]
 	[SerializeField] private Transform arrowContainer;
 	[SerializeField] private Arrow arrowPrefab;
 	[SerializeField] private Vector3 arrowSpawnRotation;
-	[Space]
+	[Header("Position")]
 	[SerializeField] private Transform positionRef;
 	[SerializeField] private float movementSpeed;
-	[Space]
+	[Header("Animations")]
 	[SerializeField] private SkinnedMeshRenderer bowSMR;
 	[SerializeField] private SkinnedMeshRenderer stringSMR;
 
+	private IObjectPool<Arrow> arrowPool;
 	private PlayerController controller;
-	private Arrow arrow;
+	private Arrow currentArrow;
 	private float elapsedDraw;
 	private float drawAmount;
-
-	private void Awake()
-	{
-		root.SetActive(false);
-	}
 
 	public void Init(PlayerController controller)
 	{
 		this.controller = controller;
 	}
 
+	private void Awake()
+	{
+		root.SetActive(false);
+
+		arrowPool = new ObjectPool<Arrow>(
+			CreateArrow,
+			a => InitArrow(a),
+			a => ReleaseArrow(a),
+			a => Destroy(a.gameObject),
+			false);
+
+		Arrow CreateArrow()
+		{
+			var arrow = Instantiate(arrowPrefab, arrowContainer);
+			InitArrow(arrow);
+			return arrow;
+		}
+
+		void InitArrow(Arrow arrow)
+		{
+			arrow.Init(a => arrowPool.Release(a));
+			arrow.transform.parent = arrowContainer;
+			arrow.transform.localPosition = Vector3.forward * arrowOffset;
+			arrow.transform.localRotation = Quaternion.Euler(arrowSpawnRotation);
+			arrow.gameObject.SetActive(true);
+		}
+
+		void ReleaseArrow(Arrow arrow)
+		{
+			arrow.transform.parent = null;
+			arrow.gameObject.SetActive(false);
+		}
+	}
+
 	private void Update()
 	{
 		if (controller == null) return;
 		if (!controller.ControlsEnabled) return;
+		if (!currentArrow) return;
 
 		// TODO Switch to input manager events
 		if (Input.GetMouseButton(0))
@@ -60,6 +95,7 @@ public class Bow : MonoBehaviour
 
 	private void LateUpdate()
 	{
+		// Smoothly follow the ref position and rotation
 		transform.position = Vector3.Lerp(transform.position, positionRef.position, movementSpeed * Time.deltaTime);
 		transform.rotation = Quaternion.Lerp(transform.rotation, positionRef.rotation, movementSpeed * Time.deltaTime);
 	}
@@ -80,51 +116,50 @@ public class Bow : MonoBehaviour
 	public void OnLevelEnded()
 	{
 		root.SetActive(false);
-		arrow = null;
-		foreach (Transform t in arrowContainer) 
+		currentArrow = null;
+
+		Debug.Assert(arrowContainer.childCount == 0, "Arrow container has an arrow left in it");
+	}
+
+	private void SpawnArrow()
+	{
+		Debug.Assert(arrowContainer.childCount == 0, "Arrow container already has an arrow in it");
+
+		/*if (arrowContainer.childCount > 0)
 		{
-			Destroy(t.gameObject);
-		}
+			Debug.LogError("ArrowContainer has an arrow in it already!", arrowContainer.GetChild(0));
+			currentArrow = arrowContainer.GetChild(0).GetComponent<Arrow>();
+			return;
+		}*/
+
+		currentArrow = arrowPool.Get();
+	}
+
+	private void MoveArrowWithDraw(float percentage)
+	{
+		currentArrow.transform.localPosition = (Vector3.back * (percentage * drawVisualMultiplier) + (Vector3.forward * arrowOffset));
+	}
+
+	private void AnimateBow(float percentage)
+	{
+		bowSMR.SetBlendShapeWeight(0, percentage * 100f);
+		stringSMR.SetBlendShapeWeight(0, percentage * 100f);
 	}
 
 	private void Shoot(float percentage)
 	{
-		if (!arrow) return;
-
 		StartCoroutine(ShootRoutine());
 
 		IEnumerator ShootRoutine()
 		{
 			AnimateBowRelease();
-			arrow.Shoot(percentage);
-			arrow = null;
+			currentArrow.Shoot(percentage);
+			currentArrow = null;
 
-			yield return CachedWait.ForSeconds(0.5f);
+			yield return CachedWait.ForSeconds(newArrowDelay);
 
 			SpawnArrow();
 		}
-	}
-
-	private void SpawnArrow()
-	{
-		arrow = Instantiate(arrowPrefab, arrowContainer);
-		arrow.transform.localPosition = Vector3.forward * arrowOffset;
-		arrow.transform.localRotation = Quaternion.Euler(arrowSpawnRotation);
-	}
-
-	private void MoveArrowWithDraw(float percentage)
-	{
-		if (!arrow) return;
-
-		arrow.transform.localPosition = (Vector3.back * (percentage * drawVisualMultiplier) + (Vector3.forward * arrowOffset));
-	}
-
-	private void AnimateBow(float percentage)
-	{
-		if (!arrow) return;
-
-		bowSMR.SetBlendShapeWeight(0, percentage * 100f);
-		stringSMR.SetBlendShapeWeight(0, percentage * 100f);
 	}
 
 	private void AnimateBowRelease()
@@ -135,16 +170,15 @@ public class Bow : MonoBehaviour
 		weight = stringSMR.GetBlendShapeWeight(0);
 		StartCoroutine(ReleaseRoutine(stringSMR, weight));
 
-		static IEnumerator ReleaseRoutine(SkinnedMeshRenderer smr, float from)
+		IEnumerator ReleaseRoutine(SkinnedMeshRenderer smr, float from)
 		{
-			var dur = 0.2f;
 			var elapsed = 0f;
-			while (elapsed < dur)
+			while (elapsed < releaseDur)
 			{
 				elapsed += Time.deltaTime;
 				yield return null;
 
-				var percentage = elapsed / dur;
+				var percentage = elapsed / releaseDur;
 
 				smr.SetBlendShapeWeight(0, from - (from * percentage));
 			}

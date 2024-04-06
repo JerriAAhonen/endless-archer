@@ -7,3 +7,5 @@ public struct Event_RotateLevel : IEvent
 {
 	public bool clockwise;
 }
+
+public struct Event_LevelEnded : IEvent { }

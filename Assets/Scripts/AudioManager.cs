@@ -80,7 +80,7 @@ public class AudioManager : PersistentSingleton<AudioManager>
 		var converted = ConvertToLog(value);
 		audioMixer.SetFloat("MusicVolume", converted);
 
-		Debug.Log($"[AudioManager] Music vol: {converted}");
+		//Debug.Log($"[AudioManager] Music vol: {converted}");
 	}
 
 	public void SetSFXVolume(float value)
@@ -88,7 +88,7 @@ public class AudioManager : PersistentSingleton<AudioManager>
 		var converted = ConvertToLog(value);
 		audioMixer.SetFloat("SFXVolume", converted);
 
-		Debug.Log($"[AudioManager] SFX vol: {converted}");
+		//Debug.Log($"[AudioManager] SFX vol: {converted}");
 	}
 
 	private float ConvertToLog(float sliderValue) => Mathf.Log10(sliderValue) * 20f;

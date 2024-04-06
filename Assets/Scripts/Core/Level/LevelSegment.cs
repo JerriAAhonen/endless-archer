@@ -38,8 +38,17 @@ public class LevelSegment : MonoBehaviour
         transform.Translate(0, 0, dist * Time.deltaTime, Space.World);
 
         if (transform.localPosition.z < despawnDist)
-            onDespawnDistReached(this);
-    }
+            Despawn();
+	}
+
+    private void Despawn()
+    {
+        // Check for any arrows and release them back to pool
+        foreach (var arrow in GetComponentsInChildren<Arrow>())
+            arrow.ReleaseToPool();
+
+		onDespawnDistReached?.Invoke(this);
+	}
 
     private Vector3 GetRandomRotation()
     {

@@ -70,6 +70,7 @@ public class LevelController : MonoBehaviour
 			return;
 
 		State = LevelState.Idle;
+		EventBus<Event_LevelEnded>.Raise(new Event_LevelEnded());
 
 		playerController.OnGameOver();
 		segmentController.OnGameOver();
@@ -109,7 +110,7 @@ public class LevelController : MonoBehaviour
 		var finalScore = Mathf.RoundToInt(args.amount * multiplier);
 		var floatingText = $"+ {finalScore}";
 
-		Debug.Log($"dist:{distToPlayer}, score:{args.amount}, final:{finalScore}");
+		//Debug.Log($"dist:{distToPlayer}, score:{args.amount}, final:{finalScore}");
 
 		scoreController.Add(finalScore);
 		ShowFloatingText(args.floatingTextPos, floatingText, args.floatingTextColor);
