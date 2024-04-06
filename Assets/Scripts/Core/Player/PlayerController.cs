@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private Bow bow;
 	[SerializeField] private Transform rotationContainer;
 	[SerializeField] private Transform camTm;
+	[SerializeField] private ParticleSystem playerCollisionPS;
 	[Header("Layers")]
 	[SerializeField] private LayerMask obstacleLayer;
 
@@ -85,6 +86,7 @@ public class PlayerController : MonoBehaviour
 		Debug.Log("Player collision");
 		if (BitMaskUtil.MaskContainsLayer(obstacleLayer, collision.gameObject.layer))
 		{
+			playerCollisionPS.Play();
 			controller.GameOver();
 		}
 	}
