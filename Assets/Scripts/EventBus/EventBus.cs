@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +8,9 @@ public static class EventBus<T> where T : IEvent
 	public static void Register(EventBinding<T> binding) => bindings.Add(binding);
 	public static void Deregister(EventBinding<T> binding) => bindings.Remove(binding);
 
+	// Tip: Remember to not Deregister a bindign when responding to an event,
+	// Tip: as this will modify the 'bindings' collection while we're iterating
+	// Tip: over it in the foreach loop.
 	public static void Raise(T @event)
 	{
 		foreach (var binding in bindings)
