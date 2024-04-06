@@ -452,6 +452,13 @@ public static class Extensions
 		return self == null || self.Length == 0;
 	}
 
+	/// <summary>
+	/// Separates numbers with specified interval and separator
+	/// </summary>
+	/// <param name="number">Number to format</param>
+	/// <param name="position">Interval of separators</param>
+	/// <param name="separator">Separator string</param>
+	/// <returns>Formatted string</returns>
 	public static string ToCustomString(this int number,
 		int position = 3, string separator = " ")
 	{

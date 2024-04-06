@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,9 @@ public class UIMainPage : UIMenuPageBase
 	[SerializeField] private Button buttonPlay;
 	[SerializeField] private Button buttonSettings;
 	[SerializeField] private Button buttonQuit;
+	[Header("Highscore")]
+	[SerializeField] private GameObject highscore;
+	[SerializeField] private TextMeshProUGUI highscoreAmount;
 
 	private void Awake()
 	{
@@ -21,6 +25,7 @@ public class UIMainPage : UIMenuPageBase
 
 	public override void Enter()
 	{
+		SetHighscore();
 		gameObject.SetActive(true);
 	}
 
@@ -44,5 +49,13 @@ public class UIMainPage : UIMenuPageBase
 	private void OnQuit()
 	{
 		GameManager.Instance.QuitGame();
+	}
+
+	private void SetHighscore()
+	{
+		var showHighscore = PlayerPrefsUtil.Highscore > 0;
+		highscore.SetActive(showHighscore);
+		highscoreAmount.gameObject.SetActive(showHighscore);
+		highscoreAmount.text = PlayerPrefsUtil.Highscore.ToCustomString();
 	}
 }
