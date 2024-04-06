@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StartGameClick-SFX
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 3890b628ee00396439384a9ebbf5a363, type: 3}
+  - {fileID: 8300000, guid: 54ea71a425dbd1c4fbd0b51b7dc6f135, type: 3}
   volume: 1
   volumeVariance: 0
   pitch: 1
