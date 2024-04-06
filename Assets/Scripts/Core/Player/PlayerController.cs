@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
 		EventBus<Event_PauseGame>.Register(pauseGameBinding);
 
 		PlayerPrefsUtil.PlayerPrefsUpdated += OnAimSensitivityUpdated;
+		OnAimSensitivityUpdated();
 	}
 
 	private void OnDisable()
@@ -81,10 +82,10 @@ public class PlayerController : MonoBehaviour
 		transform.localRotation = Quaternion.Euler(0f, yRotation, 0f);
 	}
 
-	private void OnCollisionEnter(Collision collision)
+	private void OnTriggerEnter(Collider other)
 	{
-		Debug.Log("Player collision");
-		if (BitMaskUtil.MaskContainsLayer(obstacleLayer, collision.gameObject.layer))
+		//Debug.Log("Player TRIGGER enter");
+		if (BitMaskUtil.MaskContainsLayer(obstacleLayer, other.gameObject.layer))
 		{
 			playerCollisionPS.Play();
 			controller.GameOver();
