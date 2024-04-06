@@ -23,6 +23,9 @@ public class Bow : MonoBehaviour
 	[Header("Animations")]
 	[SerializeField] private SkinnedMeshRenderer bowSMR;
 	[SerializeField] private SkinnedMeshRenderer stringSMR;
+	[Header("Sounds")]
+	[SerializeField] private AudioEvent load;
+	[SerializeField] private AudioEvent shoot;
 
 	private IObjectPool<Arrow> arrowPool;
 	private PlayerController controller;
@@ -76,6 +79,10 @@ public class Bow : MonoBehaviour
 		if (!currentArrow) return;
 
 		// TODO Switch to input manager events
+		if (Input.GetMouseButtonDown(0))
+		{
+			AudioManager.Instance.PlayOnce(load);
+		}
 		if (Input.GetMouseButton(0))
 		{
 			elapsedDraw += Time.deltaTime;
@@ -152,6 +159,7 @@ public class Bow : MonoBehaviour
 
 		IEnumerator ShootRoutine()
 		{
+			AudioManager.Instance.PlayOnce(shoot);
 			AnimateBowRelease();
 			currentArrow.Shoot(percentage);
 			currentArrow = null;

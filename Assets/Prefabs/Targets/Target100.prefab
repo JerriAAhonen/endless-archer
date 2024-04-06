@@ -50,6 +50,7 @@ MonoBehaviour:
   root: {fileID: 3797681369595517964}
   collider: {fileID: 8610425911506859936}
   onShotPS: {fileID: 1049651442792198560}
+  onShotSFX: {fileID: 11400000, guid: ab73c716ea8b5a945b8e337fec1f36e5, type: 2}
   arrowMask:
     serializedVersion: 2
     m_Bits: 256

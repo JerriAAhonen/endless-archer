@@ -7,6 +7,7 @@ public abstract class ShootingTargetBase : MonoBehaviour
 	[SerializeField] private GameObject root;
 	[SerializeField] new private Collider collider;
 	[SerializeField] private ParticleSystem onShotPS;
+	[SerializeField] private AudioEvent onShotSFX;
 	[Space]
 	[SerializeField] private LayerMask arrowMask;
 	[SerializeField] protected float labelOffset;
@@ -22,6 +23,7 @@ public abstract class ShootingTargetBase : MonoBehaviour
 		{
 			OnShot();
 			onShotPS.Play();
+			AudioManager.Instance.PlayOnce(onShotSFX);
 			SetActive(false);
 			Destroy(collision.gameObject);
 		}

@@ -31,6 +31,7 @@ public class UIPauseMenu : MonoBehaviour
 		var paused = !GlobalGameState.Paused;
 		GlobalGameState.SetGamePaused(paused);
 		CursorController.OnPause(paused);
+		AudioManager.Instance.SetMusicLowpass(paused);
 
 		hideContainer.SetActive(paused);
 

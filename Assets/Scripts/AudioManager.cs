@@ -9,8 +9,18 @@ public class AudioManager : PersistentSingleton<AudioManager>
 	[SerializeField] private AudioMixer audioMixer;
 	[SerializeField] private AudioMixerGroup sfxAudioMixerGroup;
 	[SerializeField] private AudioMixerGroup musicAudioMixerGroup;
+	[Header("Music")]
 	[SerializeField] private AudioClip music;
 	[SerializeField] private float musicVolume;
+	[SerializeField] private float defaultMusicLowpass = 22000f;
+	[SerializeField] private float muffledMusicLowpass = 356f;
+	[SerializeField] private float musicLowpassTransitionDur = 0.3f;
+	[Header("Defaults")]
+	[SerializeField] private AudioEvent defaultButtonClick;
+	[Header("Exposed params")]
+	[SerializeField] private string sfxVolumeKey;
+	[SerializeField] private string musicVolumeKey;
+	[SerializeField] private string musicLowpassKey;
 
 	private Transform mainCamTm;
 	private IObjectPool<AudioSource> pool;
@@ -78,7 +88,7 @@ public class AudioManager : PersistentSingleton<AudioManager>
 	public void SetMusicVolume(float value)
 	{
 		var converted = ConvertToLog(value);
-		audioMixer.SetFloat("MusicVolume", converted);
+		audioMixer.SetFloat(musicVolumeKey, converted);
 
 		//Debug.Log($"[AudioManager] Music vol: {converted}");
 	}
@@ -86,12 +96,41 @@ public class AudioManager : PersistentSingleton<AudioManager>
 	public void SetSFXVolume(float value)
 	{
 		var converted = ConvertToLog(value);
-		audioMixer.SetFloat("SFXVolume", converted);
+		audioMixer.SetFloat(sfxVolumeKey, converted);
 
 		//Debug.Log($"[AudioManager] SFX vol: {converted}");
 	}
 
-	private float ConvertToLog(float sliderValue) => Mathf.Log10(sliderValue) * 20f;
+	private int? lowPassTweenId;
+	public void SetMusicLowpass(bool enable)
+	{
+		var from = enable ? defaultMusicLowpass : muffledMusicLowpass;
+		var to = enable ? muffledMusicLowpass : defaultMusicLowpass;
+		var dur = musicLowpassTransitionDur;
+
+		if (lowPassTweenId.HasValue)
+			LeanTween.cancel(lowPassTweenId.Value);
+
+		lowPassTweenId = LeanTween.value(gameObject, from, to, dur)
+			.setOnUpdate(v => audioMixer.SetFloat(musicLowpassKey, v))
+			.setOnComplete(() => lowPassTweenId = null)
+			.uniqueId;
+	}
+
+	private float ConvertToLog(float sliderValue)
+	{
+		if (sliderValue.Approximately(0f))
+		{
+			return -80f;
+		}
+
+		return Mathf.Log10(sliderValue) * 20f;
+	}
+
+	public void PlayDefaultButtonClick()
+	{
+		PlayOnce(defaultButtonClick);
+	}
 
 	/// <summary>
 	/// Plays given Audio event once
