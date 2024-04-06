@@ -23,7 +23,9 @@ public class PlayerController : MonoBehaviour
 	private float xRotation;
 	private float yRotation;
 
-	public bool ControlsEnabled { get; private set; }
+	public bool ControlsEnabled => !GlobalGameState.Paused && GlobalGameState.GameOngoing;
+	public bool BlockInput { get; private set; }
+
 	public Transform CameraTransform => camTm;
 
 	private void Awake()
@@ -95,15 +97,14 @@ public class PlayerController : MonoBehaviour
 	public void OnStartLevel()
 	{
 		SetActive(true);
-		ControlsEnabled = true;
 		bow.OnStartLevel();
 	}
 
 	public void OnGameOver()
 	{
 		SetActive(false);
-		ControlsEnabled = false;
 		bow.OnLevelEnded();
+		BlockInput = false;
 	}
 
 	private void SetActive(bool active)
@@ -118,6 +119,15 @@ public class PlayerController : MonoBehaviour
 
 	private void OnPause(Event_PauseGame @event)
 	{
-		ControlsEnabled = !@event.pause;
+		// Block the user input when pausing the game
+		if (@event.pause)
+		{
+			BlockInput = true;
+		}
+		// Wait for a tiny amount before re-enabling input
+		else
+		{
+			LeanTween.delayedCall(0.01f, () => BlockInput = false);
+		}
 	}
 }

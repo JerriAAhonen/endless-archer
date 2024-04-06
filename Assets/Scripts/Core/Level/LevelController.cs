@@ -29,8 +29,8 @@ public class LevelController : MonoBehaviour
 
 	private void Update()
 	{
-		if (!GlobalGameState.GameOngoing)
-			return;
+		if (!GlobalGameState.GameOngoing) return;
+		if (GlobalGameState.Paused) return;
 
 		scoreController?.Update(Time.deltaTime);
 	}

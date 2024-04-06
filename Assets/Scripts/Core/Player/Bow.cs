@@ -75,6 +75,7 @@ public class Bow : MonoBehaviour
 	private void Update()
 	{
 		if (controller == null) return;
+		if (controller.BlockInput) return;
 		if (!controller.ControlsEnabled) return;
 		if (!currentArrow) return;
 
