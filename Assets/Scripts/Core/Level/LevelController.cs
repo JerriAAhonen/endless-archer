@@ -1,4 +1,3 @@
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class LevelController : MonoBehaviour
@@ -12,9 +11,9 @@ public class LevelController : MonoBehaviour
 	[Header("SFX")]
 	[SerializeField] private AudioEvent gameOverSFX;
 	[SerializeField] private AudioEvent gainPointsSFX;
-
+	[Header("Settings")]
 	// Option to add challenge game modes where combos decay faster etc..
-	private readonly float defaultComboDecayDuration = 2f;
+	[SerializeField] private float defaultComboDecayDuration = 4f;
 
 	private ScoreController scoreController;
 
@@ -49,7 +48,6 @@ public class LevelController : MonoBehaviour
 
 		segmentController.OnStartLevel();
 		playerController.OnStartLevel();
-		uiCoreController.SetVisible(true);
 		uiCoreController.OnStartLevel();
 
 		void OnScoreChanged(int newScore)
@@ -65,7 +63,7 @@ public class LevelController : MonoBehaviour
 
 	public void GameOver()
 	{
-		if (!GlobalGameState.GameOngoing)
+		if (!GlobalGameState.GameOngoing) 
 			return;
 
 		GlobalGameState.SetGameOngoing(false);
@@ -95,9 +93,14 @@ public class LevelController : MonoBehaviour
 	{
 		public int amount;
 		public Vector3 targetPosition;
-
 		public Vector3 floatingTextPos;
-		public Color floatingTextColor;
+
+		public ScoreArgs(int amount, Vector3 targetPosition, Vector3 floatingTextPos)
+		{
+			this.amount = amount;
+			this.targetPosition = targetPosition;
+			this.floatingTextPos = floatingTextPos;
+		}
 	}
 
 	public void AddScore(ScoreArgs args)
@@ -115,12 +118,12 @@ public class LevelController : MonoBehaviour
 		//Debug.Log($"dist:{distToPlayer}, score:{args.amount}, final:{finalScore}");
 
 		scoreController.Add(finalScore);
-		ShowFloatingText(args.floatingTextPos, floatingText, args.floatingTextColor);
+		ShowFloatingText(args.floatingTextPos, floatingText);
 		AudioManager.Instance.PlayOnce(gainPointsSFX);
 	}
 
-	private void ShowFloatingText(Vector3 pos, string text, Color color)
+	private void ShowFloatingText(Vector3 pos, string text)
 	{
-		floatingTextController.ShowText(pos, text, color);
+		floatingTextController.ShowText(pos, text);
 	}
 }

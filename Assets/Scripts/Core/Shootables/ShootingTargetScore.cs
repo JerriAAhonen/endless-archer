@@ -8,13 +8,10 @@ public class ShootingTargetScore : ShootingTargetBase
 
 	protected override void OnShot()
 	{
-		var args = new LevelController.ScoreArgs
-		{
-			amount = pointValue,
-			targetPosition = transform.position,
-			floatingTextPos = transform.position + Vector3.up * labelOffset,
-			floatingTextColor = color
-		};
+		var args = new LevelController.ScoreArgs(
+			pointValue, 
+			transform.position, 
+			transform.position + Vector3.up * labelOffset);
 		GameManager.Instance.LevelController.AddScore(args);
 	}
 }

@@ -13,6 +13,7 @@ public class UICoreController : UICoreViewBase
 
 	public void OnStartLevel()
 	{
+		SetVisible(true);
 		reticle.SetVisible(true);
 		score.SetVisible(true);
 		pauseMenu.SetVisible(true);

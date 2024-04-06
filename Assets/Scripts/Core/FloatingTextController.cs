@@ -45,10 +45,10 @@ public class FloatingTextController : MonoBehaviour
 		}
 	}
 
-	public void ShowText(Vector3 pos, string text, Color color)
+	public void ShowText(Vector3 pos, string text)
 	{
 		var t = pool.Get();
 		t.transform.position = pos;
-		t.SetText(text, color, cameraTransform);
+		t.SetText(text, cameraTransform);
 	}
 }

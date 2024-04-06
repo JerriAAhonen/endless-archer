@@ -28,10 +28,9 @@ public class FloatingText : MonoBehaviour
 		transform.rotation = Quaternion.LookRotation((lookAtTarget.position - transform.position) * -1);
 	}
 
-	public void SetText(string text, Color color, Transform lookAtTarget)
+	public void SetText(string text, Transform lookAtTarget)
 	{
 		this.lookAtTarget = lookAtTarget;
 		label.text = text;
-		label.color = color;
 	}
 }
