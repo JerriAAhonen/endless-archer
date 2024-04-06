@@ -124,6 +124,7 @@ public class Bow : MonoBehaviour
 	{
 		root.SetActive(false);
 		currentArrow = null;
+		ResetBow();
 
 		Debug.Assert(arrowContainer.childCount == 0, "Arrow container has an arrow left in it");
 	}
@@ -131,13 +132,6 @@ public class Bow : MonoBehaviour
 	private void SpawnArrow()
 	{
 		Debug.Assert(arrowContainer.childCount == 0, "Arrow container already has an arrow in it");
-
-		/*if (arrowContainer.childCount > 0)
-		{
-			Debug.LogError("ArrowContainer has an arrow in it already!", arrowContainer.GetChild(0));
-			currentArrow = arrowContainer.GetChild(0).GetComponent<Arrow>();
-			return;
-		}*/
 
 		currentArrow = arrowPool.Get();
 	}
@@ -193,5 +187,11 @@ public class Bow : MonoBehaviour
 
 			smr.SetBlendShapeWeight(0, 0f);
 		}
+	}
+
+	private void ResetBow()
+	{
+		bowSMR.SetBlendShapeWeight(0, 0f);
+		stringSMR.SetBlendShapeWeight(0, 0f);
 	}
 }
