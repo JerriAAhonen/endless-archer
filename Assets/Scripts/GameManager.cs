@@ -1,11 +1,22 @@
+using System;
 using UnityEngine;
 
 public class GameManager : PersistentSingleton<GameManager>
 {
+	[SerializeField] private UILoadingCanvas loadingCanvas;
 	[SerializeField] private UIMainMenuController mainMenuController;
 	[SerializeField] private LevelController levelController;
 
 	public LevelController LevelController => levelController;
+
+	public void Init()
+	{
+		loadingCanvas.SetVisible(true, () =>
+		{
+			OpenMainMenu();
+			loadingCanvas.SetVisible(false, null);
+		});
+	}
 
 	public void OpenMainMenu()
 	{
@@ -17,11 +28,17 @@ public class GameManager : PersistentSingleton<GameManager>
 
 	public void StartLevel()
 	{
-		mainMenuController.SetActive(false);
-		levelController.StartLevel();
-
 		CursorController.OnStartLevel();
+
+		loadingCanvas.SetVisible(true, () =>
+		{
+			mainMenuController.SetActive(false);
+			levelController.StartLevel();
+			loadingCanvas.SetVisible(false, null);
+		});
 	}
+
+	public void ShowLoadingCanvas(bool show, Action onComplete) => loadingCanvas.SetVisible(show, onComplete);
 
 	public void OnContinueAfterGameOver()
 	{

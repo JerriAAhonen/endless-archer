@@ -76,10 +76,15 @@ public class LevelController : MonoBehaviour
 
 		scoreController.OnGameOver(out var newHighscore);
 		playerController.OnGameOver();
-		segmentController.OnGameOver();
 
-		uiCoreController.OnGameOver();
-		uiCoreController.GameOver.Show(scoreController.Score, PlayerPrefsUtil.Highscore, newHighscore, OnContinue);
+		GameManager.Instance.ShowLoadingCanvas(true, () =>
+		{
+			segmentController.OnGameOver();
+			uiCoreController.OnGameOver();
+			uiCoreController.GameOver.Show(scoreController.Score, PlayerPrefsUtil.Highscore, newHighscore, OnContinue);
+
+			GameManager.Instance.ShowLoadingCanvas(false, null);
+		});
 
 		void OnContinue()
 		{

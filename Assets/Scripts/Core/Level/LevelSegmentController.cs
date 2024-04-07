@@ -91,15 +91,11 @@ public class LevelSegmentController : MonoBehaviour
 			activeSegments.Remove(segment);
 			segmentInstances[segment.Type].Add(segment);
 			yield return null;
-			yield return null;
-			yield return null;
 		}
 
 		for (int i = 0; i < segmentAmount; i++)
 		{
 			ActivateSegment(LevelSegmentType.Default);
-			yield return null;
-			yield return null;
 			yield return null;
 		}
 	}
