@@ -2,24 +2,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class FloatingTextController : MonoBehaviour
+public class UIFloatingTextController : MonoBehaviour
 {
-	[SerializeField] private FloatingText floatingTextPrefab;
+	[SerializeField] private UIFloatingText floatingTextPrefab;
 	[SerializeField] private float showTextForDuration = 2f;
 
-	private readonly List<FloatingText> activeTexts = new();
-	private IObjectPool<FloatingText> pool;
-	private Transform cameraTransform;
-
-	public void Init(Transform cameraTransform)
-	{
-		this.cameraTransform = cameraTransform;
-	}
+	private readonly List<UIFloatingText> activeTexts = new();
+	private IObjectPool<UIFloatingText> pool;
 
 	private void Awake()
 	{
-		pool = new ObjectPool<FloatingText>(
-			() => Instantiate(floatingTextPrefab),
+		pool = new ObjectPool<UIFloatingText>(
+			() => Instantiate(floatingTextPrefab, transform),
 			t =>
 			{
 				t.gameObject.SetActive(true);
@@ -45,10 +39,10 @@ public class FloatingTextController : MonoBehaviour
 		}
 	}
 
-	public void ShowText(Vector3 pos, string text)
+	public void ShowText(Vector3 position, string text)
 	{
 		var t = pool.Get();
-		t.transform.position = pos;
-		t.SetText(text, cameraTransform);
+		var screenPos = GameManager.Instance.MainCamera.WorldToScreenPoint(position);
+		t.Show(screenPos, text);
 	}
 }

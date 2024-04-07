@@ -5,6 +5,7 @@ public class UICoreController : UICoreViewBase
 	[Space]
 	[SerializeField] private UIReticle reticle;
 	[SerializeField] private UIScoreView score;
+	[SerializeField] private UIFloatingTextController floatingTextController;
 	[SerializeField] private UIGameOverView gameOver;
 	[SerializeField] private UIPauseMenuView pauseMenu;
 
@@ -24,5 +25,10 @@ public class UICoreController : UICoreViewBase
 		reticle.SetVisible(false);
 		score.SetVisible(false);
 		pauseMenu.SetVisible(false);
+	}
+
+	public void ShowFloatingText(Vector3 worldPos, string text)
+	{
+		floatingTextController.ShowText(worldPos, text);
 	}
 }

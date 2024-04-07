@@ -5,7 +5,7 @@ public class LevelController : MonoBehaviour
 	[Header("Controllers")]
 	[SerializeField] private LevelSegmentController segmentController;
 	[SerializeField] private PlayerController playerController;
-	[SerializeField] private FloatingTextController floatingTextController;
+	[SerializeField] private UIFloatingTextController floatingTextController;
 	[Header("UI")]
 	[SerializeField] private UICoreController uiCoreController;
 	[Header("SFX")]
@@ -23,7 +23,6 @@ public class LevelController : MonoBehaviour
 
 		playerController.Init(this);
 		segmentController.Init(this);
-		floatingTextController.Init(playerController.CameraTransform);
 		uiCoreController.SetVisible(false);
 	}
 
@@ -100,6 +99,9 @@ public class LevelController : MonoBehaviour
 		public Vector3 targetPosition;
 		public Vector3 floatingTextPos;
 
+		/// <param name="amount">Score amount</param>
+		/// <param name="targetPosition">World position of the shooting target</param>
+		/// <param name="floatingTextPos">World position of the ref pos for floating text</param>
 		public ScoreArgs(int amount, Vector3 targetPosition, Vector3 floatingTextPos)
 		{
 			this.amount = amount;
@@ -123,12 +125,7 @@ public class LevelController : MonoBehaviour
 		//Debug.Log($"dist:{distToPlayer}, score:{args.amount}, final:{finalScore}");
 
 		scoreController.Add(finalScore);
-		ShowFloatingText(args.floatingTextPos, floatingText);
+		uiCoreController.ShowFloatingText(args.floatingTextPos, floatingText);
 		AudioManager.Instance.PlayOnce(gainPointsSFX);
-	}
-
-	private void ShowFloatingText(Vector3 pos, string text)
-	{
-		floatingTextController.ShowText(pos, text);
 	}
 }
