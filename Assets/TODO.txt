@@ -30,7 +30,6 @@
 [x] Game end screen
 [x] Final score
 [x] Highscore
-[] Final time?
 
 [x] Title in mainmenu
 [x] Main menu buttons could be better
@@ -38,4 +37,3 @@
 [x] Score display animations
 
 [] Input controller for new input system
-[] Key binding images for all keys?
