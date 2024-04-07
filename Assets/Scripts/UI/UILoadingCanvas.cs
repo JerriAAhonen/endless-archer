@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// A very lightweight loading canvas that just smooths out the transitions between game states
+/// </summary>
 public class UILoadingCanvas : MonoBehaviour
 {
 	[SerializeField] private CanvasGroup cg;

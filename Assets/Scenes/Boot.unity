@@ -1053,6 +1053,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1236099602}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &143363798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 143363799}
+  - component: {fileID: 143363800}
+  m_Layer: 0
+  m_Name: FloatingTextController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &143363799
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143363798}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 983726511}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &143363800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143363798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f2d1eeb7d94214e8c8e7092ca83297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floatingTextPrefab: {fileID: 3292012437020649338, guid: 21587a9c3121dd04086d7e1ef8b790b5,
+    type: 3}
+  showTextForDuration: 2
 --- !u!1001 &181525768
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1752,6 +1803,7 @@ MonoBehaviour:
   root: {fileID: 983726510}
   reticle: {fileID: 2008852082}
   score: {fileID: 1336881949}
+  floatingTextController: {fileID: 143363800}
   gameOver: {fileID: 1190456015}
   pauseMenu: {fileID: 1385828151}
 --- !u!1 &299091976
@@ -3093,6 +3145,7 @@ RectTransform:
   - {fileID: 1336881948}
   - {fileID: 1385828150}
   - {fileID: 1190456014}
+  - {fileID: 143363799}
   m_Father: {fileID: 273145745}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3241,53 +3294,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1024121925
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1024121926}
-  - component: {fileID: 1024121927}
-  m_Layer: 0
-  m_Name: FloatingTextController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1024121926
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024121925}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1951441535}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1024121927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024121925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7f2d1eeb7d94214e8c8e7092ca83297, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  floatingTextPrefab: {fileID: -7773221378326637610, guid: 21587a9c3121dd04086d7e1ef8b790b5,
-    type: 3}
-  showTextForDuration: 2
 --- !u!1001 &1035979677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4173,6 +4179,7 @@ MonoBehaviour:
   loadingCanvas: {fileID: 546794154}
   mainMenuController: {fileID: 129953856}
   levelController: {fileID: 1951441534}
+  mainCamera: {fileID: 330585545}
 --- !u!4 &1330213274
 Transform:
   m_ObjectHideFlags: 0
@@ -5677,7 +5684,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   segmentController: {fileID: 912536603}
   playerController: {fileID: 1831054811}
-  floatingTextController: {fileID: 1024121927}
+  floatingTextController: {fileID: 0}
   uiCoreController: {fileID: 273145749}
   gameOverSFX: {fileID: 11400000, guid: c4c0e45244cbf1c40a3716d0a759b14d, type: 2}
   gainPointsSFX: {fileID: 11400000, guid: 0b02764c36e8bc04a9dfe6aaf753c1dc, type: 2}
@@ -5699,7 +5706,6 @@ Transform:
   - {fileID: 912536602}
   - {fileID: 1678133789}
   - {fileID: 1831054809}
-  - {fileID: 1024121926}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1972010955 stripped

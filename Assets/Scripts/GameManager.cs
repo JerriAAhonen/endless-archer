@@ -6,7 +6,9 @@ public class GameManager : PersistentSingleton<GameManager>
 	[SerializeField] private UILoadingCanvas loadingCanvas;
 	[SerializeField] private UIMainMenuController mainMenuController;
 	[SerializeField] private LevelController levelController;
+	[SerializeField] private Camera mainCamera;
 
+	public Camera MainCamera => mainCamera;
 	public LevelController LevelController => levelController;
 
 	public void Init()
