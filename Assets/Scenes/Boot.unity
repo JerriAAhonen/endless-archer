@@ -556,7 +556,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &39760520
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3485,8 +3485,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root: {fileID: 39760519}
-  score: {fileID: 511079027}
-  highscore: {fileID: 60732165}
+  title: {fileID: 189794750}
+  score: {fileID: 1949176234}
+  scoreAmount: {fileID: 511079027}
+  highscore: {fileID: 1230981851}
+  highscoreAmount: {fileID: 60732165}
   highscoreRainbow: {fileID: 60732167}
   buttonContinue: {fileID: 1035979679}
   scoreAnimDur: 1
