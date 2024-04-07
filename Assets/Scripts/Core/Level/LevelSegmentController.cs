@@ -7,25 +7,25 @@ public class LevelSegmentController : MonoBehaviour
 {
 	[SerializeField] private LevelSegmentDatabase segmentDB;
 	[SerializeField] private Transform segmentContainer;
-	[SerializeField] private float segmentAmount;
-	[SerializeField] private float segmentLength;
+	[SerializeField] private float segmentAmount;				// How many segments are there at once
+	[SerializeField] private float segmentLength;				// How long is one segment
 	[Header("Difficulty")]
-	[SerializeField] private float baseMovementSpeed; // How fast do the segments move?
+	[SerializeField] private float baseMovementSpeed;
 	[Space]
-	[SerializeField] private float initialSpeedUpDur; // How long does the initial windup take?
-	[SerializeField] private float initialSpeedUpFinalSpeed; // How fast should we be going once the initial windup is complete?
+	[SerializeField] private float initialSpeedUpDur;			// How long does the initial windup take?
+	[SerializeField] private float initialSpeedUpFinalSpeed;	// How fast should we be going once the initial windup is complete?
 	[Space]
-	[SerializeField] private float movementSpeedIncrease; // How fast should we be speeding up after the initial windup?
+	[SerializeField] private float movementSpeedIncrease;		// How fast should we be speeding up after the initial windup?
 	[Header("SFX")]
 	[SerializeField] private AudioEvent rotateSFX;
 
+	// Custom pooling system due to multiple different types of segments
 	private readonly List<LevelSegment> activeSegments = new();
 	private readonly Dictionary<LevelSegmentType, List<LevelSegment>> segmentInstances = new();
 
 	// Events
 	private EventBinding<Event_RotateLevel> rotateLevelBinding;
 
-	private LevelController controller;
 	private float movementSpeed;
 
 	// Rotation
@@ -34,9 +34,8 @@ public class LevelSegmentController : MonoBehaviour
 
 	private float DespawnDistance => segmentContainer.position.z - segmentLength * 2;
 
-	public void Init(LevelController controller)
+	public void Init()
 	{
-		this.controller = controller;
 		movementSpeed = baseMovementSpeed;
 
 		for (int i = 0; i < segmentAmount; i++)
@@ -58,11 +57,13 @@ public class LevelSegmentController : MonoBehaviour
 
 	private void Update()
 	{
-		if (GlobalGameState.Paused) return;
+		if (GlobalGameState.Paused) 
+			return;
 
 		TranslateActiveSegments();
 		
-		if (!GlobalGameState.GameOngoing) return;
+		if (!GlobalGameState.GameOngoing) 
+			return;
 		
 		IncreaseMovementSpeed();
 	}
@@ -192,8 +193,8 @@ public class LevelSegmentController : MonoBehaviour
 
 		AudioManager.Instance.PlayOnce(rotateSFX);
 
-		targetRot.z += @event.clockwise ? -90 : 90;
-
+		targetRot.z = Mathf.Repeat(targetRot.z + (@event.clockwise ? -90f : 90f), 359.99f);
+		
 		rotateTweenId = LeanTween.rotateLocal(segmentContainer.gameObject, targetRot, 0.5f)
 			.setOnComplete(() => rotateTweenId = null)
 			.setEaseOutBack()

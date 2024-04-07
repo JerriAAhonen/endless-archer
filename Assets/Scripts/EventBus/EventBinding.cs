@@ -8,8 +8,8 @@ public interface IEventBinding<T>
 
 public class EventBinding<T> : IEventBinding<T> where T : IEvent
 {
-	Action<T> onEvent = _ => { };
-	Action onEventNoArgs = () => { };
+	private Action<T> onEvent = _ => { };
+	private Action onEventNoArgs = () => { };
 
 	Action<T> IEventBinding<T>.OnEvent
 	{

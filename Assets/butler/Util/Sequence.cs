@@ -7,6 +7,7 @@ public class Sequence
 	private readonly List<Action> elements = new();
 	private readonly List<int> delays = new();
 
+	// Private constructor to enforce use of Builder
 	private Sequence() { }
 
 	private async Task Start()

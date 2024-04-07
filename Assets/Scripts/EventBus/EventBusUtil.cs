@@ -31,7 +31,7 @@ public static class EventBusUtil
 		EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
 	}
 
-	static void OnPlayModeStateChanged(PlayModeStateChange state)
+	private static void OnPlayModeStateChanged(PlayModeStateChange state)
 	{
 		PlayModeState = state;
 		if (state == PlayModeStateChange.ExitingPlayMode)
@@ -55,9 +55,9 @@ public static class EventBusUtil
 		EventBusTypes = InitializeAllBuses();
 	}
 
-	static List<Type> InitializeAllBuses()
+	private static List<Type> InitializeAllBuses()
 	{
-		List<Type> eventBusTypes = new List<Type>();
+		List<Type> eventBusTypes = new();
 
 		var typedef = typeof(EventBus<>);
 		foreach (var eventType in EventTypes)

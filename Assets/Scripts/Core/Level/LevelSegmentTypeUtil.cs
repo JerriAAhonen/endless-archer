@@ -9,7 +9,7 @@ public static class LevelSegmentTypeUtil
 
 	public static bool IsHole(LevelSegmentType type) => type 
 		is LevelSegmentType.HoleSingle 
-		or LevelSegmentType.WallDouble 
+		or LevelSegmentType.HoleDouble 
 		or LevelSegmentType.HoleTriple;
 
 	public static LevelSegmentType[] AllWalls() => new LevelSegmentType[] 

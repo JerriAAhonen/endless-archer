@@ -65,8 +65,9 @@ public static class PredefinedAssemblyUtil
 	{
 		Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-		Dictionary<AssemblyType, Type[]> assemblyTypes = new Dictionary<AssemblyType, Type[]>();
-		List<Type> types = new List<Type>();
+		Dictionary<AssemblyType, Type[]> assemblyTypes = new();
+		List<Type> types = new();
+
 		for (int i = 0; i < assemblies.Length; i++)
 		{
 			AssemblyType? assemblyType = GetAssemblyType(assemblies[i].GetName().Name);

@@ -22,14 +22,14 @@ public class LevelSegment : MonoBehaviour
     public void Activate(bool activate)
     {
         gameObject.SetActive(activate);
-        
-        if (activate)
-        {
-            transform.localRotation = Quaternion.Euler(GetRandomRotation());
-			foreach (var target in shootingTargets)
-			{
-				target.SetActive(true);
-			}
+
+        if (!activate)
+            return;
+
+        transform.localRotation = Quaternion.Euler(GetRandomRotation());
+		foreach (var target in shootingTargets)
+		{
+			target.SetActive(true);
 		}
     }
 
@@ -64,9 +64,11 @@ public class LevelSegment : MonoBehaviour
 	}
 
     [Button("Refresh Targets")]
-    private void EDITOR_GetTargets()
-    {
-        shootingTargets.Clear();
+#pragma warning disable IDE0051 // Remove unused private members
+	private void EDITOR_GetTargets()
+#pragma warning restore IDE0051 // Remove unused private members
+	{
+		shootingTargets.Clear();
         shootingTargets.AddRange(GetComponentsInChildren<ShootingTargetBase>());
     }
 }

@@ -37,5 +37,4 @@ public class Observer<T>
 		this.value = value;
 		ValueChanged?.Invoke(value);
 	}
-
 }

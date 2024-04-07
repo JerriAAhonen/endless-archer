@@ -22,7 +22,7 @@ public class LevelController : MonoBehaviour
 		GlobalGameState.SetGameOngoing(false);
 
 		playerController.Init(this);
-		segmentController.Init(this);
+		segmentController.Init();
 		uiCoreController.SetVisible(false);
 	}
 

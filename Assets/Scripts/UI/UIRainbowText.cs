@@ -37,8 +37,7 @@ public class UIRainbowText : MonoBehaviour
 			hue += speed * Time.deltaTime;
 
 			// Convert the hue to a color
-			Color color = Color.HSVToRGB(hue % 1f, 1f, 1f);
-
+			var color = Color.HSVToRGB(hue % 1f, 1f, 1f);
 			text.color = color;
 
 			yield return null;
