@@ -1,4 +1,6 @@
+using System.IO;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 public static class EditorTools
@@ -41,5 +43,22 @@ public static class EditorTools
 	{
 		PlayerPrefsUtil.Highscore = 0;
 		PlayerPrefsUtil.HighscoreTime = 0;
+	}
+
+	[MenuItem("Screenshot/Take Screenshot %#k")]
+	private static void Screenshot()
+	{
+		var timestamp = System.DateTime.Now;
+		var stampString = string.Format("_{0}-{1:00}-{2:00}_{3:00}-{4:00}-{5:00}", 
+			timestamp.Year, 
+			timestamp.Month, 
+			timestamp.Day, 
+			timestamp.Hour, 
+			timestamp.Minute, 
+			timestamp.Second);
+		var fileName = "Screenshot" + stampString + ".png";
+
+		ScreenCapture.CaptureScreenshot(fileName);
+		Debug.Log("New Screenshot taken");
 	}
 }
