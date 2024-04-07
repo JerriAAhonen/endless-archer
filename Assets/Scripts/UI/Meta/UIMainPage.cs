@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,7 +25,30 @@ public class UIMainPage : UIMenuPageBase
 	public override void Enter()
 	{
 		SetHighscore();
+		HideAll();
 		gameObject.SetActive(true);
+
+		new Sequence.Builder()
+			.AddElement(0, () => Show(buttonPlay.gameObject))
+			.AddElement(100, () => Show(buttonSettings.gameObject))
+			.AddElement(100, () => Show(buttonQuit.gameObject))
+			.AddElement(100, () => Show(highscore))
+			.AddElement(100, () => Show(highscoreAmount.gameObject))
+			.Start();
+
+		void HideAll()
+		{
+			buttonPlay.transform.localScale = Vector3.zero;
+			buttonSettings.transform.localScale = Vector3.zero;
+			buttonQuit.transform.localScale = Vector3.zero;
+			highscore.transform.localScale = Vector3.zero;
+			highscoreAmount.transform.localScale = Vector3.zero;
+		}
+
+		void Show(GameObject go)
+		{
+			UIAnimUtil.AnimateScale(go, Vector3.one, LeanTweenType.easeOutBack, 0.1f);
+		}
 	}
 
 	public override void Exit()

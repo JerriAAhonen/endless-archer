@@ -34,7 +34,7 @@
 
 [x] Title in mainmenu
 [x] Main menu buttons could be better
-[] 3D texts ingame / floating text animations
+[x] 3D texts ingame / floating text animations
 [x] Score display animations
 
 [] Input controller for new input system
